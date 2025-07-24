@@ -14,7 +14,17 @@
     .tab-content.active { display: block; }
     .tab-button.active { background-color: #10B981; color: white; }
     .book-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; }
-    .book-modal-content { background: white; margin: 15% auto; padding: 20px; width: 80%; max-width: 500px; border-radius: 8px; }
+    .book-modal-content { background: white; margin: 5% auto; padding: 20px; width: 90%; max-width: 600px; border-radius: 8px; max-height: 90vh; overflow-y: auto; }
+    .book-list { list-style-type: none; padding: 0; display: flex; flex-wrap: wrap; gap: 1rem; }
+    .book-item { width: 150px; text-align: center; }
+    .book-item img { width: 100%; height: auto; border-radius: 4px; cursor: pointer; }
+    .book-item h3 { font-weight: 600; font-size: 1rem; margin-top: 0.5rem; }
+    .modal-intro { line-height: 1.6; color: #666; }
+    .hashtags { display: block; margin-top: 0.5rem; color: #10B981; font-size: 0.875rem; }
+    @media (max-width: 640px) {
+      .book-item { width: 120px; }
+      .book-modal-content { width: 95%; margin: 10% auto; }
+    }
   </style>
 </head>
 <body class="bg-gray-100">
@@ -70,8 +80,68 @@
     <!-- 도서목록 -->
     <div id="books" class="tab-content bg-white p-6 rounded-lg shadow-md mb-8">
       <h2 class="text-xl font-semibold mb-4">도서목록</h2>
-      <button onclick="showBookForm()" class="bg-green-500 text-white p-2 rounded mb-4 hover:bg-green-600">도서 추가</button>
-      <ul id="bookList" class="list-disc pl-5"></ul>
+      <div class="book-list">
+        <div class="book-item" onclick="openBookModal('book1')">
+          <img src="images/11.jpg" alt="세상을 움직이는 힘, 에너지 표지">
+          <h3>세상을 움직이는 힘, 에너지</h3>
+        </div>
+        <div class="book-item" onclick="openBookModal('book2')">
+          <img src="images/22.jpg" alt="기후변화 쫌 아는 10대 표지">
+          <h3>기후변화 쫌 아는 10대</h3>
+        </div>
+        <div class="book-item" onclick="openBookModal('book3')">
+          <img src="images/33.jpg" alt="모두의 내일을 위한 기후위기와 탄소중립 수업이야기 표지">
+          <h3>모두의 내일을 위한 기후위기와 탄소중립 수업이야기</h3>
+        </div>
+        <div class="book-item" onclick="openBookModal('book4')">
+          <img src="images/44.jpg" alt="탄소 중립으로 지구를 살리자고? 표지">
+          <h3>탄소 중립으로 지구를 살리자고?</h3>
+        </div>
+        <div class="book-item" onclick="openBookModal('book5')">
+          <img src="images/55.jpg" alt="지속가능한 미래를 위한 기후변화 데이터북 표지">
+          <h3>지속가능한 미래를 위한 기후변화 데이터북</h3>
+        </div>
+        <div class="book-item" onclick="openBookModal('book6')">
+          <img src="images/66.jpg" alt="궁금했어, 탄소중립 표지">
+          <h3>궁금했어, 탄소중립</h3>
+        </div>
+        <div class="book-item" onclick="openBookModal('book7')">
+          <img src="images/77.jpg" alt="이토록 불편한 탄소 표지">
+          <h3>이토록 불편한 탄소</h3>
+        </div>
+        <div class="book-item" onclick="openBookModal('book8')">
+          <img src="images/88.jpg" alt="탄소중립, 어떻게 해결할까? 표지">
+          <h3>탄소중립, 어떻게 해결할까?</h3>
+        </div>
+        <div class="book-item" onclick="openBookModal('book9')">
+          <img src="images/99.jpg" alt="탄소중립이 뭐예요? 표지">
+          <h3>탄소중립이 뭐예요?</h3>
+        </div>
+        <div class="book-item" onclick="openBookModal('book10')">
+          <img src="images/1010.jpg" alt="우리도 할 수 있어! 탄소중립 표지">
+          <h3>우리도 할 수 있어! 탄소중립</h3>
+        </div>
+        <div class="book-item" onclick="openBookModal('book11')">
+          <img src="images/1111.jpg" alt="선생님, 탄소중립을 이루려면 어떻게 해야 해요? 표지">
+          <h3>선생님, 탄소중립을 이루려면 어떻게 해야 해요?</h3>
+        </div>
+        <div class="book-item" onclick="openBookModal('book12')">
+          <img src="images/1212.jpg" alt="오늘부터 시작하는 탄소중립 표지">
+          <h3>오늘부터 시작하는 탄소중립</h3>
+        </div>
+        <div class="book-item" onclick="openBookModal('book13')">
+          <img src="images/1313.jpg" alt="우리 모두 SDGs 표지">
+          <h3>우리 모두 SDGs</h3>
+        </div>
+        <div class="book-item" onclick="openBookModal('book14')">
+          <img src="images/1414.jpg" alt="어린이를 위한 SDGs 표지">
+          <h3>어린이를 위한 SDGs</h3>
+        </div>
+        <div class="book-item" onclick="openBookModal('book15')">
+          <img src="images/1515.jpg" alt="숫자로 알아보는 환경 과학 이야기 표지">
+          <h3>숫자로 알아보는 환경 과학 이야기</h3>
+        </div>
+      </div>
     </div>
 
     <!-- 인터넷자료 -->
@@ -103,35 +173,16 @@
       </ul>
     </div>
 
-    <!-- 도서 추가/편집 모달 -->
+    <!-- 모달 창 -->
     <div id="bookModal" class="book-modal">
       <div class="book-modal-content">
-        <h2 class="text-xl font-semibold mb-4">도서 정보 입력</h2>
-        <input type="hidden" id="bookIndex">
-        <div class="mb-4">
-          <label class="block text-sm font-medium">책 제목</label>
-          <input type="text" id="bookTitle" class="w-full p-2 border rounded" placeholder="예: 탄소중립의 이해">
-        </div>
-        <div class="mb-4">
-          <label class="block text-sm font-medium">저자</label>
-          <input type="text" id="bookAuthor" class="w-full p-2 border rounded" placeholder="예: 홍길동">
-        </div>
-        <div class="mb-4">
-          <label class="block text-sm font-medium">출판사</label>
-          <input type="text" id="bookPublisher" class="w-full p-2 border rounded" placeholder="예: 환경출판사">
-        </div>
-        <div class="mb-4">
-          <label class="block text-sm font-medium">출판년도</label>
-          <input type="number" id="bookYear" class="w-full p-2 border rounded" placeholder="예: 2023">
-        </div>
-        <button onclick="saveBook()" class="bg-green-500 text-white p-2 rounded mr-2 hover:bg-green-600">저장</button>
-        <button onclick="closeBookForm()" class="bg-gray-500 text-white p-2 rounded hover:bg-gray-600">취소</button>
+        <span class="close" onclick="closeBookModal()">×</span>
+        <div id="modalContent"></div>
       </div>
     </div>
   </div>
 
   <script>
-    // 탭 전환
     function openTab(tabId, el) {
       document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
       document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
@@ -139,67 +190,154 @@
       el.classList.add('active');
     }
 
-    // 도서 목록 관리
-    let books = JSON.parse(localStorage.getItem('books')) || [];
+    function openBookModal(bookId) {
+      const books = {
+        'book1': {
+          title: '세상을 움직이는 힘, 에너지',
+          author: '한귀영',
+          callNumber: '563??',
+          year: '2023',
+          intro: '이 책은 우리 사회의 모든 조직이 원활하게 운영될 수 있게 이끄는 핵심 원동력인 에너지에 대한 기본적인 정보를 제공하며, 흥미로운 역사적 일화를 곁들여 쉽게 풀어냅니다. 에너지 전공자가 아닌 일반 시민을 대상으로 하여 에너지 지식을 효과적으로 향상시키는 것을 목표로 합니다. 에너지 사용이 가져오는 환경오염 문제(대기, 수질, 토양 오염)와 이산화탄소 배출로 인한 지구온난화와 같은 필연적인 결과를 다루며, 가정용, 수송용 에너지뿐 아니라 상업용, 특히 환경에 큰 영향을 미치는 산업용 에너지의 경제적·환경적 요인을 종합적으로 살펴봅니다. 이를 통해 시민들이 정부에 적극적인 의견을 제시하며, 더 나은 산업용 에너지 소비 구조로의 전환에 관심을 갖고 참여할 수 있도록 장려합니다. 또한, 에너지와 관련된 다양한 사례를 통해 과거부터 현재까지의 에너지 사용 패턴을 되짚어보며, 앞으로의 지속 가능한 에너지 정책에 대한 통찰을 얻을 수 있는 기회를 제공합니다. 이 책은 단순한 정보 전달을 넘어, 독자들이 실질적인 변화를 이끌어내는 주체가 될 수 있도록 독려하는 데 초점을 맞추고 있으며, 에너지 문제에 대한 깊은 이해를 바탕으로 개인과 사회가 함께 나아갈 길을 모색할 수 있도록 돕습니다.',
+          hashtags: '#에너지 #환경오염 #지구온난화 #산업용에너지 #시민참여'
+        },
+        'book2': {
+          title: '기후변화 쫌 아는 10대',
+          author: '이지유',
+          callNumber: '408',
+          year: '2020',
+          intro: '이 책은 10대 독자를 위해 친근하고 따뜻한 말투로 쓰여져 기후에 대한 이해를 쉽게 돕습니다. 기후의 개념을 점차 넓혀가며 깊이 있게 설명하며, 마지막 장에서는 순배출 제로라는 주제로 급증하는 이산화탄소와 온실가스, 그리고 이를 줄이는 실질적인 방법을 다룹니다. 기후가 무엇인지부터 지구온난화 문제까지 차근차근 이해하고, 이를 마음에 새기기 위해 이 책이 큰 역할을 할 수 있습니다. 또한, 10대들이 일상에서 경험하는 환경 변화와 이를 연결 짓는 구체적인 예시를 통해 기후 문제에 대한 관심을 높이며, 실천 가능한 작은 행동부터 시작해 큰 변화를 만들어 갈 수 있는 자신감을 심어줍니다. 이 책은 단순히 이론을 전달하는 데 그치지 않고, 젊은 세대가 기후 위기에 적극적으로 대응할 수 있는 첫걸음을 내디딜 수 있도록 동기를 부여하며, 실생활에서 적용할 수 있는 구체적인 아이디어를 제시합니다.',
+          hashtags: '#기후변화 #10대 #온실가스 #지구온난화 #순배출제로'
+        },
+        'book3': {
+          title: '모두의 내일을 위한 기후위기와 탄소중립 수업이야기',
+          author: '한문정',
+          callNumber: '374',
+          year: '2023',
+          intro: '이 책은 탄소중립을 주제로 한 한 학기 주제선택 수업의 진행 과정을 상세히 기록하며, 수업에서 활용된 자료와 수업의 자연스러운 흐름을 명확히 보여줍니다. 지구도둑 부캐 테스트와 한끼밥상 탄소 계산기 웹사이트 같은 구체적인 활동이 포함되어 있어, 수업을 주도하는 교사뿐 아니라 일반 독자도 탄소중립에 대해 쉽게 배우고 실천할 수 있는 기회를 제공합니다. 수업에서의 상호작용과 학생들의 피드백을 반영한 다양한 사례를 통해, 독자들이 직접 참여하며 배울 수 있는 방법을 제안하며, 탄소중립에 대한 실질적인 이해를 돕습니다. 이 책은 단순한 교재를 넘어, 교육 현장에서의 경험을 공유하며 더 많은 사람이 기후 문제에 관심을 가질 수 있도록 설계되었으며, 실제 수업 사례를 통해 실천 가능성을 높이는 데 초점을 맞춥니다.',
+          hashtags: '#탄소중립 #수업자료 #지구도둑 #탄소계산기 #실천'
+        },
+        'book4': {
+          title: '탄소 중립으로 지구를 살리자고?',
+          author: '박재용',
+          callNumber: '408',
+          year: '2021',
+          intro: '이 책은 기후위기의 원인 분석을 시작으로 도시와 바다 생태계의 문제를 차분히 설명하며, 전 세계가 동의하고 실천에 옮기는 해결책으로 2050 탄소중립을 제시합니다. 마지막 장에서는 탄소중립의 의미와 이산화탄소 배출을 줄이는 실질적인 방법을 간결하면서도 명확히 다룹니다. 기후위기로 인해 발생하는 다양한 현상을 자세히 탐구하며, 탄소중립이 필수적인 이유를 깊이 이해할 수 있도록 돕습니다. 또한, 각국이 추진 중인 탄소중립 정책과 그 성공 사례를 소개하며, 독자들이 이를 자신들의 삶에 적용할 수 있는 방법을 고민하게 만듭니다. 이 책은 단순한 이론 설명을 넘어, 실천 가능한 아이디어를 제시하며 독자 스스로 기후 위기 해결에 동참할 수 있도록 유도하며, 지속 가능한 미래를 위한 구체적인 로드맵을 제시합니다.',
+          hashtags: '#기후위기 #탄소중립 #2050 #이산화탄소 #생태계'
+        },
+        'book5': {
+          title: '지속가능한 미래를 위한 기후변화 데이터북',
+          author: '박훈',
+          callNumber: '539',
+          year: '2024',
+          intro: '이 책은 기후위기의 시대에 기후급변점을 막기 위해 시민들이 반드시 알아야 할 최신 기후변화 데이터를 풍부히 담고 있습니다. 현재보다 온실가스 배출량을 1/15 이내로 줄이는 삶을 한 세대 안에 실천할 수 있도록 돕는 안내서로, 다양한 출처의 신뢰할 수 있는 국내외 통계자료와 보고서를 분석해 제시합니다. 지구의 온난화 정도, 국내외 온실가스 배출 현황, 기후변화의 원인, 미래 전망과 시나리오, 그리고 기후 행동의 실제 효과까지 광범위한 주제를 아우르며 깊이 탐구합니다. 또한, 각 데이터를 기반으로 한 구체적인 정책 제안과 시민 참여 방안을 포함해, 독자들이 데이터를 실생활에 적용할 수 있는 실질적인 통찰을 얻을 수 있도록 돕습니다. 이 책은 단순한 정보 제공을 넘어, 기후 위기에 대한 적극적인 대응을 위한 가이드 역할을 하며, 다양한 지역의 사례를 통해 글로벌 관점을 제공합니다.',
+          hashtags: '#기후변화 #데이터북 #온실가스 #지구온난화 #기후행동'
+        },
+        'book6': {
+          title: '궁금했어, 탄소중립',
+          author: '윤상석',
+          callNumber: '408',
+          year: '2023',
+          intro: '이 책은 탄소가 무엇인지부터 시작해 탄소가 왜 문제인지, 지구온난화의 의미와 방지 방법, 그리고 탄소 배출을 줄이는 실질적인 방안에 이르기까지, 기후위기와 떼려야 뗄 수 없는 탄소중립에 대해 체계적으로 이해할 수 있도록 돕습니다. 다른 책들과 달리 탄소와 탄소중립에 대한 내용의 비중이 높아, 이 주제에 깊이 관심 있는 독자가 원하는 정보를 풍부히 얻을 수 있습니다. 또한, 탄소, 온실가스, 지구온난화의 상호 관계를 자연스럽게 설명하며, 지구온난화와 기후위기에 대한 종합적인 이해를 이끌어냅니다. 다양한 사례와 데이터를 활용해 탄소중립의 실현 가능성을 탐구하며, 독자들이 이를 일상에서 실천할 수 있는 구체적인 단계를 제안합니다. 이 책은 단순한 설명을 넘어 실천으로 이어지는 길잡이가 되려 하며, 독자 개개인이 기후 문제 해결에 기여할 수 있는 방법을 모색하도록 안내합니다.',
+          hashtags: '#탄소중립 #기후위기 #지구온난화 #온실가스 #실천방안'
+        },
+        'book7': {
+          title: '이토록 불편한 탄소',
+          author: '신방실',
+          callNumber: '408',
+          year: '2023',
+          intro: '이 책은 초등학생이 각 주제에 대해 5번의 인터뷰를 진행하는 흥미로운 형식으로 쓰여 있어, 초·중학생도 부담 없이 이해할 수 있는 수준입니다. 제목에서 알 수 있듯, 탄소와 탄소중립이 내용의 핵심 주제를 이루며, 원소로서의 탄소부터 산업혁명과 탄소의 연관성, 탄소가 문제인 이유, 그리고 탄소중립의 배경, 내용, 해결 방안까지 포괄적으로 다룹니다. 탄소중립, 지구온난화, 기후위기에 대한 기초부터 깊이 있는 이해를 도모하는 데 적합한 책입니다. 인터뷰를 통해 얻은 다양한 관점을 반영해, 어린 독자들도 복잡한 주제를 쉽게 받아들일 수 있도록 배려하며, 실생활에서의 적용 가능성을 제시합니다. 이 책은 단순한 학습 자료를 넘어, 어린이들이 환경 문제에 관심을 갖고 작은 변화부터 시작할 수 있도록 동기를 부여합니다.',
+          hashtags: '#탄소 #탄소중립 #지구온난화 #기후위기 #교육'
+        },
+        'book8': {
+          title: '탄소중립, 어떻게 해결할까?',
+          author: '신방실',
+          callNumber: '539',
+          year: '2023',
+          intro: '이 책은 탄소 사회의 종말과 탄소중립 및 그 실천 방안을 중심으로 구성되었으며, 과거 산업혁명의 원동력이었던 화석연료에서 시작해 탄소중립을 위한 우리의 실천을 포괄적으로 다룹니다. 탄소 배출로 초래되는 온실효과, 지구온난화, 기후변화, 기후위기에 대한 심층적인 내용과 파리협정의 중요성을 소개하며, 탄소중립의 의미와 대한민국 탄소배출 현황을 자세히 설명합니다. 또한, 탈탄소 시대의 정의로운 사회를 주제로 기후 위기로 인한 글로벌 위협과 기후 난민, 기후 정의를 다루며, 폭넓은 관점에서 탄소중립을 조명합니다. 끝으로, 우리가 실천할 수 있는 구체적인 방법을 제시해 탄소중립에 대한 이해와 실천 의지를 북돋웁니다. 다양한 국제 사례와 정책을 비교하며, 독자들이 이를 지역적 맥락에서 적용할 수 있는 통찰을 제공합니다.',
+          hashtags: '#탄소중립 #화석연료 #기후위기 #파리협정 #기후정의'
+        },
+        'book9': {
+          title: '탄소중립이 뭐예요?',
+          author: '장성익',
+          callNumber: '539',
+          year: '2022',
+          intro: '이 책은 전 세계가 기후 변화로 어려움을 겪고 있는 상황에서, 지구온난화라는 기후 변화의 주요 원인을 해결하기 위해 필수적인 탄소중립이 무엇이며 왜 중요한지를 명확히 알려줍니다. 탄소중립을 이해하기 위해 지구 생물들이 기후 변화로 입는 피해, 기후변화, 기후위기에 대한 내용을 먼저 소개한 뒤, 이를 해결하는 핵심 수단으로 탄소중립을 심도 있게 다룹니다. 또한, 기후 정의와 에너지 전환 같은 중요한 주제를 포함하며, 탄소중립과 관련된 폭넓고 신뢰할 수 있는 정보를 제공합니다. 학생들을 주요 독자로 설정해 마치 직접 대화하듯 친근한 어투로, 친절한 설명을 더해 내용을 쉽게 소화할 수 있도록 구성했습니다. 실생활에서의 사례를 곁들여, 학생들이 기후 문제에 실질적으로 참여할 수 있는 계기를 제공합니다.',
+          hashtags: '#탄소중립 #기후변화 #지구온난화 #기후정의 #에너지전환'
+        },
+        'book10': {
+          title: '우리도 할 수 있어! 탄소중립',
+          author: '신영미',
+          callNumber: '539',
+          year: '2022',
+          intro: '이 책은 환경 보호가 전 지구적인 과제이자 반드시 해결해야 할 숙제임을 강조하며, 올바른 방향을 설정하고 지금 바로 실천할 구체적인 방법을 제시하려는 열정으로 쓰여졌습니다. 초등학생 남매 와이와 키키가 기후위기와 탄소중립을 또래 친구들에게 친근하게 설명하는 방식이 특징입니다. 기후위기의 주범인 온실가스에 대한 내용을 다룬 뒤, 탄소중립이 가장 확실한 해결책임을 밝히며 그 의미를 깊이 설명합니다. 국가 정책, 기업 경영, 개인 생활 방식까지 아우르는 변화가 필요함을 강조하고, 식생활, 의생활 등 일상에서 탄소 감축을 위한 실천 방법을 구체적으로 제안합니다. 어린이들이 참여할 수 있는 실천 사례를 풍부히 담아, 환경 보호에 대한 책임감을 키울 수 있도록 돕습니다.',
+          hashtags: '#탄소중립 #환경보호 #기후위기 #온실가스 #실천방법'
+        },
+        'book11': {
+          title: '선생님, 탄소중립을 이루려면 어떻게 해야 해요?',
+          author: '최원형',
+          callNumber: '539',
+          year: '2023',
+          intro: '이 책은 모두가 협력해 온실가스를 줄여야 한다는 메시지를 담고 있으며, 기후변화의 의미를 탐구합니다. 학생들의 흥미를 끌기 위해 그린란드의 녹아내리는 빙하와 산불로 멸종 위기에 처한 코알라를 예로 들어 생생하게 설명합니다. 이어서 탄소중립의 의미와 탄소가 문제인 이유를 명확히 제시하며, 식생활과 기후위기의 연관성을 다루고 식생활에서의 탄소 배출에 초점을 맞춥니다. 다음으로는 옷, 핸드폰, 종이 등 의생활과 일상에서의 탄소 배출을 상세히 설명하고, 마지막 장에서 일상 속 다양한 탄소 배출을 줄이는 실천 방법을 구체적으로 제안합니다. 학생들이 쉽게 공감할 수 있는 사례를 통해, 기후 문제에 대한 실천 의지를 북돋우는 데 중점을 둡니다.',
+          hashtags: '#탄소중립 #기후변화 #온실가스 #실천 #의생활'
+        },
+        'book12': {
+          title: '오늘부터 시작하는 탄소중립',
+          author: '권승문, 김세영',
+          callNumber: '539',
+          year: '2022',
+          intro: '이 책은 기후변화와 기후위기를 해결할 핵심 열쇠로 탄소중립을 소개하며, 패션, 식문화, 교통, 건물, 경제활동 등 일상에서 탄소가 많이 발생하는 각 분야에서 탄소 배출이 어떻게 이루어지는지를 상세하면서도 쉽게 설명합니다. 편리함을 중시하던 일상에서 탄소 배출을 줄이는 방식으로 변화를 이끌어내야 한다는 점을 분명히 제시하며, 사회 전체가 탈성장의 방향으로 나아가야 함을 강조합니다. 각 분야별로 구체적인 탄소 배출 사례와 이를 줄이는 방법을 제안하며, 독자들이 일상에서 실천할 수 있는 구체적인 단계를 안내합니다. 이 책은 단순한 이론을 넘어 지속 가능한 생활 방식을 실현할 수 있는 실질적인 가이드 역할을 합니다.',
+          hashtags: '#탄소중립 #기후위기 #일상변화 #탈성장 #탄소배출'
+        },
+        'book13': {
+          title: '우리 모두 SDGs',
+          author: 'WILL 어린이교육연구소',
+          callNumber: '331',
+          year: '2023',
+          intro: '이 책은 SDGs에 대해 아는 것이 없는 독자에게 SDGs가 무엇인지를 간단하고 명확하게 설명하며, 어린이 독자를 주요 대상으로 삼았습니다. 집, 동네, 학교라는 일상적인 공간을 기준으로 SDGs를 주제로 나누어, 각 장면에 맞는 SDGs 목표와 행동, 그리고 그 상황에서 실천할 수 있는 구체적인 방법을 제시합니다. 일상 속 장면을 그림 중심으로 표현하고, 관련 내용을 그림과 함께 풀어냄으로써 어린이들도 쉽게 이해할 수 있도록 세심하게 구성되었습니다. 다양한 일상 상황에서의 SDGs 적용 예시를 추가해, 어린이들이 실생활에서 실천할 수 있는 기회를 넓히며, 지속 가능한 삶에 대한 흥미를 유도합니다.',
+          hashtags: '#SDGs #어린이교육 #지속가능발전 #일상실천 #그림책'
+        },
+        'book14': {
+          title: '어린이를 위한 SDGs',
+          author: '송지현 / 감수: 아키야마 고지로',
+          callNumber: '331',
+          year: '2022',
+          intro: '이 책은 어린이들에게 SDGs를 상세히 소개하기 위해 제작되었으며, 전 세계적으로 발생하는 다양한 문제를 인식할 수 있도록 돕습니다. 관련 그림과 함께 어린 학생들이 이해하기 쉬운 간단한 문장으로 내용을 전달합니다. 이후 장에서는 앞서 다룬 문제들을 확장해 지속가능성, 지속가능발전, SDGs, 그리고 SDGs의 5P에 대해 간결하게 설명합니다. 마지막 장에서는 우리가 SDGs를 어떻게 받아들이고 실천으로 옮길지를 깊이 고민할 수 있는 주제를 제시하며 마무리합니다. 다양한 세계 각국의 사례를 통해 어린이들이 글로벌 관점을 갖출 수 있도록 안내하며, 실천 가능한 아이디어를 풍부히 담았습니다.',
+          hashtags: '#SDGs #어린이 #지속가능발전 #교육 #실천'
+        },
+        'book15': {
+          title: '숫자로 알아보는 환경 과학 이야기',
+          author: '이성희',
+          callNumber: '539',
+          year: '2023',
+          intro: '이 책은 숫자를 통해 우리가 현재 살아가는 세상과 다가올 미래에 대한 이야기를 흥미롭게 풀어냅니다. 0의 탄소중립, 제로 웨이스트, 제로 에너지부터 1의 유일한 지구, 장미 한 송이, 2의 지구 온도 상승 2도 이하까지 숫자 15까지의 주제를 다룹니다. 특히, 일상 속 장면을 배경으로 박사와 학생이 대화하는 형식으로 진행되며, 종이타월 대 핸드드라이어, 손 설거지 대 식기세척기 중 어떤 선택이 더 친환경적인지 고민할 수 있는 흥미로운 주제를 쉽고 이해하기 편한 언어로 설명합니다. 다양한 일상 사례를 추가해 독자들이 실생활에서 친환경 선택을 실천할 수 있는 영감을 얻을 수 있도록 돕습니다.',
+          hashtags: '#환경과학 #숫자 #친환경 #지구온난화 #일상'
+        }
+      };
 
-    function renderBookList() {
-      const bookList = document.getElementById('bookList');
-      bookList.innerHTML = '';
-      books.forEach((book, index) => {
-        const li = document.createElement('li');
-        li.innerHTML = `<a href="#" onclick="showBookDetails(${index})">${book.title}</a> <button onclick="editBook(${index})" class="text-blue-500 text-sm">편집</button>`;
-        bookList.appendChild(li);
-      });
-    }
-
-    function showBookForm() {
+      const book = books[bookId];
+      const modalContent = document.getElementById('modalContent');
+      modalContent.innerHTML = `
+        <h3 class="text-xl font-semibold mb-2">${book.title}</h3>
+        <p><strong>저자:</strong> ${book.author}</p>
+        <p><strong>청구기호:</strong> ${book.callNumber}</p>
+        <p><strong>발행년도:</strong> ${book.year}</p>
+        <p class="modal-intro">${book.intro}</p>
+        <span class="hashtags">${book.hashtags}</span>
+      `;
       document.getElementById('bookModal').style.display = 'block';
-      document.getElementById('bookIndex').value = '';
-      document.getElementById('bookTitle').value = '';
-      document.getElementById('bookAuthor').value = '';
-      document.getElementById('bookPublisher').value = '';
-      document.getElementById('bookYear').value = '';
     }
 
-    function closeBookForm() {
+    function closeBookModal() {
       document.getElementById('bookModal').style.display = 'none';
     }
 
-    function saveBook() {
-      const index = document.getElementById('bookIndex').value;
-      const book = {
-        title: document.getElementById('bookTitle').value,
-        author: document.getElementById('bookAuthor').value,
-        publisher: document.getElementById('bookPublisher').value,
-        year: document.getElementById('bookYear').value,
-      };
-      if (index === '') {
-        books.push(book);
-      } else {
-        books[index] = book;
+    // 모달 외부 클릭 시 닫기
+    window.onclick = function(event) {
+      const modal = document.getElementById('bookModal');
+      if (event.target == modal) {
+        modal.style.display = 'none';
       }
-      localStorage.setItem('books', JSON.stringify(books));
-      renderBookList();
-      closeBookForm();
     }
-
-    function editBook(index) {
-      const book = books[index];
-      document.getElementById('bookIndex').value = index;
-      document.getElementById('bookTitle').value = book.title;
-      document.getElementById('bookAuthor').value = book.author;
-      document.getElementById('bookPublisher').value = book.publisher;
-      document.getElementById('bookYear').value = book.year;
-      document.getElementById('bookModal').style.display = 'block';
-    }
-
-    function showBookDetails(index) {
-      const book = books[index];
-      alert(`제목: ${book.title}\n저자: ${book.author}\n출판사: ${book.publisher}\n출판년도: ${book.year}`);
-    }
-
-    // 초기 도서목록 렌der링
-    renderBookList();
   </script>
 </body>
 </html>
