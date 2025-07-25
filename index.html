@@ -38,7 +38,7 @@
       <button class="tab-button px-4 py-2 rounded bg-gray-200" onclick="openTab('overview', this)">주제개요</button>
       <button class="tab-button px-4 py-2 rounded bg-gray-200" onclick="openTab('keywords', this)">검색키워드</button>
       <button class="tab-button px-4 py-2 rounded bg-gray-200" onclick="openTab('kdc', this)">KDC 분류기호</button>
-      <button class="tab-button px-4 py-2 rounded bg-gray-200" onclick="openTab('books', this)">도서</button>
+      <button class="tab-button px-4 py-2 rounded bg-gray-200" onclick="openTab('books', this)">도서목록</button>
       <button class="tab-button px-4 py-2 rounded bg-gray-200" onclick="openTab('links', this)">인터넷자료</button>
       <button class="tab-button px-4 py-2 rounded bg-gray-200" onclick="openTab('videos', this)">동영상자료</button>
       <button class="tab-button px-4 py-2 rounded bg-gray-200" onclick="openTab('papers', this)">논문 및 보고서</button>
@@ -80,27 +80,15 @@
 
     <!-- 도서목록 -->
     <div id="books" class="tab-content bg-white p-6 rounded-lg shadow-md mb-8">
-      <h2 class="text-xl font-semibold mb-4">도서</h2>
+      <h2 class="text-xl font-semibold mb-4">도서목록</h2>
       <div class="book-list">
-        <div class="book-item" onclick="openBookModal('book1')">
-          <img src="images/11.jpg" alt="세상을 움직이는 힘, 에너지 표지">
-          <h3>세상을 움직이는 힘, 에너지</h3>
-        </div>
-        <div class="book-item" onclick="openBookModal('book2')">
-          <img src="images/22.jpg" alt="기후변화 쫌 아는 10대 표지">
-          <h3>기후변화 쫌 아는 10대</h3>
-        </div>
-        <div class="book-item" onclick="openBookModal('book3')">
-          <img src="images/33.jpg" alt="모두의 내일을 위한 기후위기와 탄소중립 수업이야기 표지">
-          <h3>모두의 내일을 위한 기후위기와 탄소중립 수업이야기</h3>
-        </div>
         <div class="book-item" onclick="openBookModal('book4')">
           <img src="images/44.jpg" alt="탄소 중립으로 지구를 살리자고? 표지">
           <h3>탄소 중립으로 지구를 살리자고?</h3>
         </div>
-        <div class="book-item" onclick="openBookModal('book5')">
-          <img src="images/55.jpg" alt="지속가능한 미래를 위한 기후변화 데이터북 표지">
-          <h3>지속가능한 미래를 위한 기후변화 데이터북</h3>
+        <div class="book-item" onclick="openBookModal('book12')">
+          <img src="images/1212.jpg" alt="오늘부터 시작하는 탄소중립 표지">
+          <h3>오늘부터 시작하는 탄소중립</h3>
         </div>
         <div class="book-item" onclick="openBookModal('book6')">
           <img src="images/66.jpg" alt="궁금했어, 탄소중립 표지">
@@ -118,17 +106,29 @@
           <img src="images/99.jpg" alt="탄소중립이 뭐예요? 표지">
           <h3>탄소중립이 뭐예요?</h3>
         </div>
-        <div class="book-item" onclick="openBookModal('book10')">
-          <img src="images/1010.jpg" alt="우리도 할 수 있어! 탄소중립 표지">
-          <h3>우리도 할 수 있어! 탄소중립</h3>
-        </div>
         <div class="book-item" onclick="openBookModal('book11')">
           <img src="images/1111.jpg" alt="선생님, 탄소중립을 이루려면 어떻게 해야 해요? 표지">
           <h3>선생님, 탄소중립을 이루려면 어떻게 해야 해요?</h3>
         </div>
-        <div class="book-item" onclick="openBookModal('book12')">
-          <img src="images/1212.jpg" alt="오늘부터 시작하는 탄소중립 표지">
-          <h3>오늘부터 시작하는 탄소중립</h3>
+        <div class="book-item" onclick="openBookModal('book10')">
+          <img src="images/1010.jpg" alt="우리도 할 수 있어! 탄소중립 표지">
+          <h3>우리도 할 수 있어! 탄소중립</h3>
+        </div>
+        <div class="book-item" onclick="openBookModal('book3')">
+          <img src="images/33.jpg" alt="모두의 내일을 위한 기후위기와 탄소중립 수업이야기 표지">
+          <h3>모두의 내일을 위한 기후위기와 탄소중립 수업이야기</h3>
+        </div>
+        <div class="book-item" onclick="openBookModal('book2')">
+          <img src="images/22.jpg" alt="기후변화 쫌 아는 10대 표지">
+          <h3>기후변화 쫌 아는 10대</h3>
+        </div>
+        <div class="book-item" onclick="openBookModal('book1')">
+          <img src="images/11.jpg" alt="세상을 움직이는 힘, 에너지 표지">
+          <h3>세상을 움직이는 힘, 에너지</h3>
+        </div>
+        <div class="book-item" onclick="openBookModal('book5')">
+          <img src="images/55.jpg" alt="지속가능한 미래를 위한 기후변화 데이터북 표지">
+          <h3>지속가능한 미래를 위한 기후변화 데이터북</h3>
         </div>
         <div class="book-item" onclick="openBookModal('book13')">
           <img src="images/1313.jpg" alt="우리 모두 SDGs 표지">
