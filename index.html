@@ -15,15 +15,15 @@
     .tab-button.active { background-color: #10B981; color: white; }
     .book-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; }
     .book-modal-content { background: white; margin: 5% auto; padding: 20px; width: 90%; max-width: 600px; border-radius: 8px; max-height: 90vh; overflow-y: auto; }
-    .book-list { list-style-type: none; padding: 0; display: flex; flex-wrap: wrap; gap: 1rem; }
-    .book-item { width: 150px; text-align: center; }
-    .book-item img { width: 100%; height: auto; border-radius: 4px; cursor: pointer; }
-    .book-item h3 { font-weight: 600; font-size: 1rem; margin-top: 0.5rem; }
+    .book-list { list-style-type: none; padding: 0; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
+    .book-item { width: calc(20% - 0.8rem); text-align: center; } /* 한 줄에 5권: 100% / 5 - gap 조정 */
+    .book-item img { width: 100%; height: auto; border-radius: 4px; cursor: pointer; object-fit: cover; } /* 이미지 비율 유지 */
+    .book-item h3 { font-weight: 600; font-size: 1rem; margin-top: 0.5rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .modal-intro { line-height: 1.6; color: #666; }
     .hashtags { display: block; margin-top: 0.5rem; color: #10B981; font-size: 0.875rem; }
     .close { position: absolute; top: 10px; right: 20px; font-size: 1.5rem; cursor: pointer; }
     @media (max-width: 640px) {
-      .book-item { width: 120px; }
+      .book-item { width: calc(33.33% - 0.8rem); } /* 모바일에서 3권씩 */
       .book-modal-content { width: 95%; margin: 10% auto; }
     }
   </style>
@@ -80,7 +80,7 @@
 
     <!-- 도서목록 -->
     <div id="books" class="tab-content bg-white p-6 rounded-lg shadow-md mb-8">
-      <h2 class="text-xl font-semibold mb-4">도서목록</h2>
+      <h2 class="text-xl font-semibold mb-4">도서</h2>
       <div class="book-list">
         <div class="book-item" onclick="openBookModal('book1')">
           <img src="images/11.jpg" alt="세상을 움직이는 힘, 에너지 표지">
@@ -371,14 +371,13 @@
 
       const book = books[bookId];
       const modalContent = document.getElementById('modalContent');
-      modalContent.innerHTML = `
-        <h3 class="text-xl font-semibold mb-2">${book.title}</h3>
+      modalContent.innerHTML = 
+        `<h3 class="text-xl font-semibold mb-2">${book.title}</h3>
         <p><strong>저자:</strong> ${book.author}</p>
         <p><strong>청구기호:</strong> ${book.callNumber}</p>
         <p><strong>발행년도:</strong> ${book.year}</p>
         <p class="modal-intro">${book.intro}</p>
-        <span class="hashtags">${book.hashtags}</span>
-      `;
+        <span class="hashtags">${book.hashtags}</span>`;
       document.getElementById('bookModal').style.display = 'block';
     }
 
