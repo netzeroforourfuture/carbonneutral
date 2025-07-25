@@ -16,21 +16,21 @@
     .book-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; }
     .book-modal-content { background: white; margin: 5% auto; padding: 20px; width: 90%; max-width: 600px; border-radius: 8px; max-height: 90vh; overflow-y: auto; }
     .book-list { list-style-type: none; padding: 0; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
-    .book-item { width: calc(20% - 0.8rem); text-align: center; } /* 한 줄에 5권: 100% / 5 - gap 조정 */
-    .book-item img { width: 100%; height: auto; border-radius: 4px; cursor: pointer; object-fit: cover; } /* 이미지 비율 유지 */
+    .book-item { width: calc(20% - 0.8rem); text-align: center; }
+    .book-item img { width: 100%; height: auto; border-radius: 4px; cursor: pointer; object-fit: cover; }
     .book-item h3 { font-weight: 600; font-size: 1rem; margin-top: 0.5rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .modal-intro { line-height: 1.6; color: #666; }
     .hashtags { display: block; margin-top: 0.5rem; color: #10B981; font-size: 0.875rem; }
     .close { position: absolute; top: 10px; right: 20px; font-size: 1.5rem; cursor: pointer; }
     @media (max-width: 640px) {
-      .book-item { width: calc(33.33% - 0.8rem); } /* 모바일에서 3권씩 */
+      .book-item { width: calc(33.33% - 0.8rem); }
       .book-modal-content { width: 95%; margin: 10% auto; }
     }
   </style>
 </head>
 <body class="bg-gray-100">
   <div class="container">
-    <h1 class="text-3xl font-bold text-center mb-4">탄소중립 패스파인더</h1>
+    <h1 class="text-5xl font-extrabold text-center mb-6 text-green-700 hover:text-green-800 cursor-pointer transition duration-300" onclick="window.location.href='#'">탄소중립 패스파인더</h1>
     <p class="text-center mb-6">탄소중립에 대해 알아보고, 관련 자료를 탐색해보세요!</p>
 
     <!-- 탭 메뉴 -->
@@ -163,60 +163,59 @@
     </div>
 
     <!-- 동영상자료 -->
-<div id="videos" class="tab-content bg-white p-6 rounded-lg shadow-md mb-8">
-  <h2 class="text-xl font-semibold mb-4">동영상자료</h2>
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-    <div>
-      <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/XVAoQ60yAZc" title="탄소중립 1" frameborder="0" allowfullscreen></iframe>
-      <p class="mt-2 text-center text-sm text-gray-700">지구를 뜨겁게 만드는 탄소 이야기 🌎 탄소 중립 | 지식채널e | 기후 변화</p>
+    <div id="videos" class="tab-content bg-white p-6 rounded-lg shadow-md mb-8">
+      <h2 class="text-xl font-semibold mb-4">동영상자료</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div>
+          <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/XVAoQ60yAZc" title="탄소중립 1" frameborder="0" allowfullscreen></iframe>
+          <p class="mt-2 text-center text-sm text-gray-700">지구를 뜨겁게 만드는 탄소 이야기 🌎 탄소 중립 | 지식채널e | 기후 변화</p>
+        </div>
+        <div>
+          <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/cLYg_M5jo00" title="탄소중립 2" frameborder="0" allowfullscreen></iframe>
+          <p class="mt-2 text-center text-sm text-gray-700">탄소중립!🌍 내가 먼저 실천해요~!🙋</p>
+        </div>
+        <div>
+          <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/5YClXhBNdug" title="탄소중립 3" frameborder="0" allowfullscreen></iframe>
+          <p class="mt-2 text-center text-sm text-gray-700">잔망루피의 탄소중립 "제철이를 찾아라!"</p>
+        </div>
+        <div>
+          <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/eWa5tM0X-Vk" title="탄소중립 4" frameborder="0" allowfullscreen></iframe>
+          <p class="mt-2 text-center text-sm text-gray-700">탄소중립의 탄소는 뭐고, 중립은 뭘까요? | 1분 교양</p>
+        </div>
+        <div>
+          <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/GrMCf4PrKsQ" title="탄소중립 5" frameborder="0" allowfullscreen></iframe>
+          <p class="mt-2 text-center text-sm text-gray-700">[다큐S프라임] 탄소중립, 지구의 마지막 1℃ / YTN 사이언스</p>
+        </div>
+        <div>
+          <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/KpC8LDpOb0Y" title="탄소중립 6" frameborder="0" allowfullscreen></iframe>
+          <p class="mt-2 text-center text-sm text-gray-700">[탄소중립 환경동화] 엄마, 탄소중립이 뭐예요?</p>
+        </div>
+        <div>
+          <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/5BvEl_OFBx8" title="탄소중립 7" frameborder="0" allowfullscreen></iframe>
+          <p class="mt-2 text-center text-sm text-gray-700">※전국민 중독송※ 탄소 사용 멈추고❌탄소 중립에 빠져봐~😉🎶</p>
+        </div>
+        <div>
+          <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/IjxLmHXy9lY" title="탄소중립 8" frameborder="0" allowfullscreen></iframe>
+          <p class="mt-2 text-center text-sm text-gray-700">탄소 중립의 게임 체인저, '탄소포집'🌎</p>
+        </div>
+        <div>
+          <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/Wk6m2fJoFZ8" title="탄소중립 9" frameborder="0" allowfullscreen></iframe>
+          <p class="mt-2 text-center text-sm text-gray-700">탄소 중립, 지구를 지키는 한 걸음 [다큐ON-Docu ON]</p>
+        </div>
+        <div>
+          <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/GRBDO47yIzY" title="탄소중립 10" frameborder="0" allowfullscreen></iframe>
+          <p class="mt-2 text-center text-sm text-gray-700">2050탄소중립 알아보기</p>
+        </div>
+        <div>
+          <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/-V1XPFzNiZo" title="탄소중립 11" frameborder="0" allowfullscreen></iframe>
+          <p class="mt-2 text-center text-sm text-gray-700">"탄소중립 실현을 위한 학교 환경교육" 안내 영상</p>
+        </div>
+        <div>
+          <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/bb2vVoIff_w" title="탄소중립 12" frameborder="0" allowfullscreen></iframe>
+          <p class="mt-2 text-center text-sm text-gray-700">[그린클래스] 기후 위기와 탄소중립</p>
+        </div>
+      </div>
     </div>
-    <div>
-      <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/cLYg_M5jo00" title="탄소중립 2" frameborder="0" allowfullscreen></iframe>
-      <p class="mt-2 text-center text-sm text-gray-700">탄소중립!🌍 내가 먼저 실천해요~!🙋</p>
-    </div>
-    <div>
-      <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/5YClXhBNdug" title="탄소중립 3" frameborder="0" allowfullscreen></iframe>
-      <p class="mt-2 text-center text-sm text-gray-700">잔망루피의 탄소중립 "제철이를 찾아라!"</p>
-    </div>
-    <div>
-      <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/eWa5tM0X-Vk" title="탄소중립 4" frameborder="0" allowfullscreen></iframe>
-      <p class="mt-2 text-center text-sm text-gray-700">탄소중립의 탄소는 뭐고, 중립은 뭘까요? | 1분 교양</p>
-    </div>
-    <div>
-      <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/GrMCf4PrKsQ" title="탄소중립 5" frameborder="0" allowfullscreen></iframe>
-      <p class="mt-2 text-center text-sm text-gray-700">[다큐S프라임] 탄소중립, 지구의 마지막 1℃ / YTN 사이언스</p>
-    </div>
-    <div>
-      <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/KpC8LDpOb0Y" title="탄소중립 6" frameborder="0" allowfullscreen></iframe>
-      <p class="mt-2 text-center text-sm text-gray-700">[탄소중립 환경동화] 엄마, 탄소중립이 뭐예요?</p>
-    </div>
-    <div>
-      <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/5BvEl_OFBx8" title="탄소중립 7" frameborder="0" allowfullscreen></iframe>
-      <p class="mt-2 text-center text-sm text-gray-700">※전국민 중독송※ 탄소 사용 멈추고❌탄소 중립에 빠져봐~😉🎶</p>
-    </div>
-    <div>
-      <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/IjxLmHXy9lY" title="탄소중립 8" frameborder="0" allowfullscreen></iframe>
-      <p class="mt-2 text-center text-sm text-gray-700">탄소 중립의 게임 체인저, '탄소포집'🌎</p>
-    </div>
-    <div>
-      <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/Wk6m2fJoFZ8" title="탄소중립 9" frameborder="0" allowfullscreen></iframe>
-      <p class="mt-2 text-center text-sm text-gray-700">탄소 중립, 지구를 지키는 한 걸음 [다큐ON-Docu ON]</p>
-    </div>
-    <div>
-      <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/GRBDO47yIzY" title="탄소중립 10" frameborder="0" allowfullscreen></iframe>
-      <p class="mt-2 text-center text-sm text-gray-700">2050탄소중립 알아보기</p>
-    </div>
-    <div>
-      <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/-V1XPFzNiZo" title="탄소중립 11" frameborder="0" allowfullscreen></iframe>
-      <p class="mt-2 text-center text-sm text-gray-700">"탄소중립 실현을 위한 학교 환경교육" 안내 영상</p>
-    </div>
-    <div>
-      <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/bb2vVoIff_w" title="탄소중립 12" frameborder="0" allowfullscreen></iframe>
-      <p class="mt-2 text-center text-sm text-gray-700">[그린클래스] 기후 위기와 탄소중립</p>
-    </div>
-  </div>
-</div>
-
 
     <!-- 모달 창 -->
     <div id="bookModal" class="book-modal">
