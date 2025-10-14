@@ -11,7 +11,6 @@
     .tab-content { display: none; }
     .tab-content.active { display: block; }
     .tab-button.active { background-color: #059669; color: #fff; box-shadow: 0 10px 15px -3px rgba(16,185,129,0.3); }
-    /* 5x3 그리드 - 반응형 */
     .books-grid { display:grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 1rem; }
     @media (max-width: 1024px) { .books-grid { grid-template-columns: repeat(4, minmax(0,1fr)); } }
     @media (max-width: 768px)  { .books-grid { grid-template-columns: repeat(3, minmax(0,1fr)); } }
@@ -52,8 +51,8 @@
         우리나라는 <strong class="text-gray-900">2020년 10월 28일</strong> <strong class="text-emerald-700'">'2050 탄소중립 선언'</strong>을 통해 2050년까지 탄소중립을 달성하겠다는 목표를 세웠습니다. 이를 위해 <strong>재생에너지 확대</strong>, <strong>친환경 기술 개발</strong>, <strong>시민의 생활 속 실천</strong>을 장려하고 있습니다.
       </p>
       <div class="flex flex-col items-center">
-        <div class="w-full max-w-md h-48 bg-gradient-to-br from-green-400 to-emerald-500 rounded-lg shadow-md flex items-center justify-center">
-          <span class="text-white text-center font-semibold">📊 탄소중립 그래프</span>
+        <div class="w-full max-w-md rounded-lg overflow-hidden shadow-md">
+          <img src="images/ch.png" alt="탄소중립 그래프" class="w-full h-48 object-contain bg-white" />
         </div>
         <p class="text-sm text-gray-600 mt-3">
           출처: <a href="https://gihoo.or.kr/menu.es?mid=a30101020000" target="_blank" rel="noopener noreferrer" class="text-emerald-700 underline hover:no-underline">탄소중립 정책포털</a>
@@ -205,6 +204,25 @@
       { title: '기후 위기와 탄소중립', id: 'bb2vVoIff_w' }
     ];
 
+    // 표지 이미지 매핑 (요청 파일명 규칙)
+    const bookCovers = {
+      book1: 'images/11.jpg',
+      book2: 'images/22.jpg',
+      book3: 'images/33.jpg',
+      book4: 'images/44.jpg',
+      book5: 'images/55.jpg',
+      book6: 'images/66.jpg',
+      book7: 'images/77.jpg',
+      book8: 'images/88.jpg',
+      book9: 'images/99.jpg',
+      book10: 'images/1010.jpg',
+      book11: 'images/1111.jpg',
+      book12: 'images/1212.jpg',
+      book13: 'images/1313.jpg',
+      book14: 'images/1414.jpg',
+      book15: 'images/1515.jpg'
+    };
+
     function openTab(id) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
@@ -223,8 +241,8 @@
         card.className = 'text-center cursor-pointer transition-transform duration-300 hover:scale-105';
         card.onclick = () => openBookModal(key);
         card.innerHTML = `
-          <div class="w-full aspect-square bg-gradient-to-br from-green-400 to-emerald-500 rounded-lg shadow-lg hover:shadow-xl flex items-center justify-center mb-2 overflow-hidden">
-            <span class="text-4xl">📚</span>
+          <div class="w-full aspect-square rounded-lg shadow-lg hover:shadow-xl mb-2 overflow-hidden bg-white">
+            <img src="${bookCovers[key] || ''}" alt="${book.title} 표지" class="w-full h-full object-cover" />
           </div>
           <h3 class="font-bold text-xs text-gray-800 line-clamp-2 leading-tight h-8">${book.title}</h3>
           <p class="text-xs text-gray-600 mt-1">${book.author}</p>
