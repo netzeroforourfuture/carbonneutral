@@ -242,7 +242,7 @@
         card.onclick = () => openBookModal(key);
         card.innerHTML = `
           <div class="w-full aspect-square rounded-lg shadow-lg hover:shadow-xl mb-2 overflow-hidden bg-white">
-            <img src="${bookCovers[key] || ''}" alt="${book.title} 표지" class="w-full h-full object-cover" />
+            <img src="${bookCovers[key] || ''}" alt="${book.title} 표지" class="w-60 h-90 object-cover" />
           </div>
           <h3 class="font-bold text-xs text-gray-800 line-clamp-2 leading-tight h-8">${book.title}</h3>
           <p class="text-xs text-gray-600 mt-1">${book.author}</p>
