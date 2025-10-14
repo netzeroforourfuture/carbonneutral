@@ -1,399 +1,303 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>탄소중립 패스파인더</title>
+  <meta name="description" content="탄소중립에 대해 알아보고, 관련 자료(키워드, KDC, 도서, 링크, 동영상)를 탐색하세요."/>
+  <link rel="preconnect" href="https://cdn.tailwindcss.com">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    body { font-family: 'Noto Sans KR', sans-serif; }
-    .container { max-width: 800px; margin: 0 auto; padding: 20px; }
-    canvas { max-width: 100%; }
     .tab-content { display: none; }
     .tab-content.active { display: block; }
-    .tab-button.active { background-color: #10B981; color: white; }
-    .book-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; }
-    .book-modal-content { background: white; margin: 5% auto; padding: 20px; width: 90%; max-width: 600px; border-radius: 8px; max-height: 90vh; overflow-y: auto; }
-    .book-list { list-style-type: none; padding: 0; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
-    .book-item { width: calc(20% - 0.8rem); text-align: center; }
-    .book-item img { width: 100%; height: auto; border-radius: 4px; cursor: pointer; object-fit: cover; }
-    .book-item h3 { font-weight: 600; font-size: 1rem; margin-top: 0.5rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .modal-intro { line-height: 1.6; color: #666; }
-    .hashtags { display: block; margin-top: 0.5rem; color: #10B981; font-size: 0.875rem; }
-    .close { position: absolute; top: 10px; right: 20px; font-size: 1.5rem; cursor: pointer; }
-    @media (max-width: 640px) {
-      .book-item { width: calc(33.33% - 0.8rem); }
-      .book-modal-content { width: 95%; margin: 10% auto; }
-    }
+    .tab-button.active { background-color: #059669; color: #fff; box-shadow: 0 10px 15px -3px rgba(16,185,129,0.3); }
+    /* 5x3 그리드 - 반응형 */
+    .books-grid { display:grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 1rem; }
+    @media (max-width: 1024px) { .books-grid { grid-template-columns: repeat(4, minmax(0,1fr)); } }
+    @media (max-width: 768px)  { .books-grid { grid-template-columns: repeat(3, minmax(0,1fr)); } }
+    @media (max-width: 480px)  { .books-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+    .line-clamp-2{ display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
   </style>
 </head>
-<body class="bg-gray-100">
-  <div class="container">
-    <h1 class="text-5xl font-bold text-center mb-4">
-  <a href="#" onclick="openTab('overview', this)" class="text-green-600 hover:underline">
-    탄소중립 패스파인더
-  </a>
-</h1>
-    <p class="text-center mb-6">탄소중립에 대해 알아보고, 관련 자료를 탐색해보세요!</p>
+<body class="min-h-screen bg-gray-50">
+  <!-- Header -->
+  <header class="bg-gradient-to-r from-green-600 to-emerald-600 text-white py-12 shadow-lg">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="text-5xl animate-bounce inline-block">🍃</span>
+        <h1 class="text-5xl font-bold">탄소중립 패스파인더</h1>
+      </div>
+      <p class="text-green-100 text-lg">탄소중립에 대해 알아보고, 관련 자료를 탐색해보세요!</p>
+    </div>
+  </header>
 
-    <!-- 탭 메뉴 -->
-    <div class="flex justify-center mb-6 space-x-2 flex-wrap">
-      <button class="tab-button px-4 py-2 rounded bg-gray-200" onclick="openTab('overview', this)">주제개요</button>
-      <button class="tab-button px-4 py-2 rounded bg-gray-200" onclick="openTab('keywords', this)">검색키워드</button>
-      <button class="tab-button px-4 py-2 rounded bg-gray-200" onclick="openTab('kdc', this)">KDC 분류기호</button>
-      <button class="tab-button px-4 py-2 rounded bg-gray-200" onclick="openTab('books', this)">도서</button>
-      <button class="tab-button px-4 py-2 rounded bg-gray-200" onclick="openTab('links', this)">인터넷자료</button>
-      <button class="tab-button px-4 py-2 rounded bg-gray-200" onclick="openTab('videos', this)">동영상자료</button>
+  <main class="max-w-6xl mx-auto px-4 py-8">
+    <!-- Tabs -->
+    <div class="flex flex-wrap gap-3 justify-center mb-8" id="tabs">
+      <button class="tab-button px-5 py-3 rounded-lg font-semibold transition-all bg-white text-gray-700 shadow-md hover:shadow-lg" data-tab="overview">📚 주제개요</button>
+      <button class="tab-button px-5 py-3 rounded-lg font-semibold transition-all bg-white text-gray-700 shadow-md hover:shadow-lg" data-tab="keywords">🔍 검색키워드</button>
+      <button class="tab-button px-5 py-3 rounded-lg font-semibold transition-all bg-white text-gray-700 shadow-md hover:shadow-lg" data-tab="kdc">📑 KDC 분류기호</button>
+      <button class="tab-button px-5 py-3 rounded-lg font-semibold transition-all bg-white text-gray-700 shadow-md hover:shadow-lg" data-tab="books">📖 도서</button>
+      <button class="tab-button px-5 py-3 rounded-lg font-semibold transition-all bg-white text-gray-700 shadow-md hover:shadow-lg" data-tab="links">🌐 인터넷자료</button>
+      <button class="tab-button px-5 py-3 rounded-lg font-semibold transition-all bg-white text-gray-700 shadow-md hover:shadow-lg" data-tab="videos">🎬 동영상자료</button>
     </div>
 
-    <!-- 주제개요 -->
-    <div id="overview" class="tab-content active bg-white p-6 rounded-lg shadow-md mb-8">
-      <h2 class="text-xl font-semibold mb-4">주제개요</h2>
-      <p class="mb-4">탄소중립은 온실가스 배출량과 흡수량을 균형 있게 만들어 순 배출량을 0으로 만드는 것을 의미합니다. 즉, 배출된 이산화탄소(CO2)나 메탄(CH4) 같은 온실가스를 재생에너지 사용, 에너지 효율 향상, 나무 심기, 탄소포집기술(CCUS) 등을 통해 흡수하거나 제거하여 기후위기를 해결하는 핵심 전략입니다.</p>
-      <p class="mb-4">우리나라는 2020년 10월 28일 ‘2050 탄소중립 선언’을 통해 2050년까지 탄소중립을 달성하겠다는 목표를 세웠습니다. 이를 위해 재생에너지 확대, 친환경 기술 개발, 시민의 생활 속 실천을 장려하고 있습니다.</p>
-      <img src="images/ch.png" alt="탄소중립 그래프" class="mt-4 w-full max-w-md mx-auto">
-      <p class="text-sm text-gray-600 mt-2">출처: <a href="https://gihoo.or.kr/menu.es?mid=a30101020000" target="_blank">탄소중립 정책포털</a></p>
-    </div>
+    <!-- Overview -->
+    <section id="overview" class="tab-content bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-2xl font-extrabold mb-4 text-emerald-700">⚡ 주제개요</h2>
+      <p class="mb-4 text-gray-800 leading-7">
+        <strong class="text-emerald-700">탄소중립</strong>은 온실가스 배출량과 흡수량을 균형 있게 만들어 <strong class="text-gray-900">순 배출량을 0</strong>으로 만드는 것을 의미합니다. 배출된 이산화탄소(CO<sub>2</sub>)나 메탄(CH<sub>4</sub>) 같은 온실가스를 재생에너지 사용, 에너지 효율 향상, 나무 심기, 탄소포집기술(<strong>CCUS</strong>) 등을 통해 <strong>흡수하거나 제거</strong>하여 기후위를 해결하는 핵심 전략입니다.
+      </p>
+      <p class="mb-6 text-gray-800 leading-7">
+        우리나라는 <strong class="text-gray-900">2020년 10월 28일</strong> <strong class="text-emerald-700'">'2050 탄소중립 선언'</strong>을 통해 2050년까지 탄소중립을 달성하겠다는 목표를 세웠습니다. 이를 위해 <strong>재생에너지 확대</strong>, <strong>친환경 기술 개발</strong>, <strong>시민의 생활 속 실천</strong>을 장려하고 있습니다.
+      </p>
+      <div class="flex flex-col items-center">
+        <div class="w-full max-w-md h-48 bg-gradient-to-br from-green-400 to-emerald-500 rounded-lg shadow-md flex items-center justify-center">
+          <span class="text-white text-center font-semibold">📊 탄소중립 그래프</span>
+        </div>
+        <p class="text-sm text-gray-600 mt-3">
+          출처: <a href="https://gihoo.or.kr/menu.es?mid=a30101020000" target="_blank" rel="noopener noreferrer" class="text-emerald-700 underline hover:no-underline">탄소중립 정책포털</a>
+        </p>
+      </div>
+    </section>
 
-    <!-- 검색키워드 -->
-    <div id="keywords" class="tab-content bg-white p-6 rounded-lg shadow-md mb-8">
-      <h2 class="text-xl font-semibold mb-4">검색키워드</h2>
-      <ul class="list-disc pl-5">
-        <li>탄소중립</li>
-        <li>넷제로</li>
-        <li>온실가스 감축</li>
-        <li>화석연료</li>
-        <li>재생에너지</li>
-        <li>탄소포집기술 (CCUS)</li>
-        <li>기후변화</li>
-        <li>기후위기</li>
+    <!-- Keywords -->
+    <section id="keywords" class="tab-content bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-2xl font-extrabold mb-4 text-emerald-700">🔍 검색키워드</h2>
+      <ul class="grid md:grid-cols-2 gap-3">
+        <li><span class="block bg-emerald-100 text-emerald-800 border border-emerald-300 rounded-2xl px-4 py-3 shadow-sm">#탄소중립</span></li>
+        <li><span class="block bg-emerald-100 text-emerald-800 border border-emerald-300 rounded-2xl px-4 py-3 shadow-sm">#넷제로</span></li>
+        <li><span class="block bg-emerald-100 text-emerald-800 border border-emerald-300 rounded-2xl px-4 py-3 shadow-sm">#온실가스 감축</span></li>
+        <li><span class="block bg-emerald-100 text-emerald-800 border border-emerald-300 rounded-2xl px-4 py-3 shadow-sm">#화석연료</span></li>
+        <li><span class="block bg-emerald-100 text-emerald-800 border border-emerald-300 rounded-2xl px-4 py-3 shadow-sm">#재생에너지</span></li>
+        <li><span class="block bg-emerald-100 text-emerald-800 border border-emerald-300 rounded-2xl px-4 py-3 shadow-sm">#탄소포집기술</span></li>
+        <li><span class="block bg-emerald-100 text-emerald-800 border border-emerald-300 rounded-2xl px-4 py-3 shadow-sm">#기후변화</span></li>
+        <li><span class="block bg-emerald-100 text-emerald-800 border border-emerald-300 rounded-2xl px-4 py-3 shadow-sm">#기후위기</span></li>
       </ul>
-    </div>
+    </section>
 
-    <!-- KDC 분류기호 -->
-    <div id="kdc" class="tab-content bg-white p-6 rounded-lg shadow-md mb-8">
-      <h2 class="text-xl font-semibold mb-4">KDC 분류기호</h2>
-      <ul class="list-disc pl-5">
-        <li>317.8: 환경정책 및 행정</li>
-        <li>539: 환경공학, 재생에너지</li>
-        <li>519.8: 대기오염 및 기후변화</li>
-      </ul>
-    </div>
-
-    <!-- 도서목록 -->
-    <div id="books" class="tab-content bg-white p-6 rounded-lg shadow-md mb-8">
-      <h2 class="text-xl font-semibold mb-4">도서목록</h2>
-      <div class="book-list">
-        <div class="book-item" onclick="openBookModal('book4')">
-          <img src="images/44.jpg" alt="탄소 중립으로 지구를 살리자고? 표지">
-          <h3>탄소 중립으로 지구를 살리자고?</h3>
+    <!-- KDC -->
+    <section id="kdc" class="tab-content bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-2xl font-extrabold mb-4 text-emerald-700">KDC 분류기호</h2>
+      <div class="space-y-3">
+        <div class="relative rounded-2xl p-4 bg-gradient-to-r from-emerald-50 to-blue-50 shadow-sm">
+          <span class="absolute left-0 top-0 bottom-0 w-1 bg-emerald-600 rounded-l-2xl"></span>
+          <div class="flex items-center gap-4 text-emerald-800">
+            <span class="inline-flex items-center justify-center rounded-xl border border-emerald-300 bg-white px-4 py-2 font-extrabold tracking-wide">317.8</span>
+            <span class="text-gray-700">환경정책 및 행정</span>
+          </div>
         </div>
-        <div class="book-item" onclick="openBookModal('book12')">
-          <img src="images/1212.jpg" alt="오늘부터 시작하는 탄소중립 표지">
-          <h3>오늘부터 시작하는 탄소중립</h3>
+        <div class="relative rounded-2xl p-4 bg-gradient-to-r from-emerald-50 to-blue-50 shadow-sm">
+          <span class="absolute left-0 top-0 bottom-0 w-1 bg-emerald-600 rounded-l-2xl"></span>
+          <div class="flex items-center gap-4 text-emerald-800">
+            <span class="inline-flex items-center justify-center rounded-xl border border-emerald-300 bg-white px-4 py-2 font-extrabold tracking-wide">519.8</span>
+            <span class="text-gray-700">대기오염 및 기후변화</span>
+          </div>
         </div>
-        <div class="book-item" onclick="openBookModal('book6')">
-          <img src="images/66.jpg" alt="궁금했어, 탄소중립 표지">
-          <h3>궁금했어, 탄소중립</h3>
-        </div>
-        <div class="book-item" onclick="openBookModal('book7')">
-          <img src="images/77.jpg" alt="이토록 불편한 탄소 표지">
-          <h3>이토록 불편한 탄소</h3>
-        </div>
-        <div class="book-item" onclick="openBookModal('book8')">
-          <img src="images/88.jpg" alt="탄소중립, 어떻게 해결할까? 표지">
-          <h3>탄소중립, 어떻게 해결할까?</h3>
-        </div>
-        <div class="book-item" onclick="openBookModal('book9')">
-          <img src="images/99.jpg" alt="탄소중립이 뭐예요? 표지">
-          <h3>탄소중립이 뭐예요?</h3>
-        </div>
-        <div class="book-item" onclick="openBookModal('book11')">
-          <img src="images/1111.jpg" alt="선생님, 탄소중립을 이루려면 어떻게 해야 해요? 표지">
-          <h3>선생님, 탄소중립을 이루려면 어떻게 해야 해요?</h3>
-        </div>
-        <div class="book-item" onclick="openBookModal('book10')">
-          <img src="images/1010.jpg" alt="우리도 할 수 있어! 탄소중립 표지">
-          <h3>우리도 할 수 있어! 탄소중립</h3>
-        </div>
-        <div class="book-item" onclick="openBookModal('book3')">
-          <img src="images/33.jpg" alt="모두의 내일을 위한 기후위기와 탄소중립 수업이야기 표지">
-          <h3>모두의 내일을 위한 기후위기와 탄소중립 수업이야기</h3>
-        </div>
-        <div class="book-item" onclick="openBookModal('book2')">
-          <img src="images/22.jpg" alt="기후변화 쫌 아는 10대 표지">
-          <h3>기후변화 쫌 아는 10대</h3>
-        </div>
-        <div class="book-item" onclick="openBookModal('book1')">
-          <img src="images/11.jpg" alt="세상을 움직이는 힘, 에너지 표지">
-          <h3>세상을 움직이는 힘, 에너지</h3>
-        </div>
-        <div class="book-item" onclick="openBookModal('book5')">
-          <img src="images/55.jpg" alt="지속가능한 미래를 위한 기후변화 데이터북 표지">
-          <h3>지속가능한 미래를 위한 기후변화 데이터북</h3>
-        </div>
-        <div class="book-item" onclick="openBookModal('book13')">
-          <img src="images/1313.jpg" alt="우리 모두 SDGs 표지">
-          <h3>우리 모두 SDGs</h3>
-        </div>
-        <div class="book-item" onclick="openBookModal('book14')">
-          <img src="images/1414.jpg" alt="어린이를 위한 SDGs 표지">
-          <h3>어린이를 위한 SDGs</h3>
-        </div>
-        <div class="book-item" onclick="openBookModal('book15')">
-          <img src="images/1515.jpg" alt="숫자로 알아보는 환경 과학 이야기 표지">
-          <h3>숫자로 알아보는 환경 과학 이야기</h3>
+        <div class="relative rounded-2xl p-4 bg-gradient-to-r from-emerald-50 to-blue-50 shadow-sm">
+          <span class="absolute left-0 top-0 bottom-0 w-1 bg-emerald-600 rounded-l-2xl"></span>
+          <div class="flex items-center gap-4 text-emerald-800">
+            <span class="inline-flex items-center justify-center rounded-xl border border-emerald-300 bg-white px-4 py-2 font-extrabold tracking-wide">539</span>
+            <span class="text-gray-700">환경공학, 재생에너지</span>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- 인터넷자료 -->
-    <div id="links" class="tab-content bg-white p-6 rounded-lg shadow-md mb-8">
-      <h2 class="text-xl font-semibold mb-4">인터넷자료</h2>
-      <p class="text-sm text-gray-600 mb-4">※ 사이트 제목 클릭 시 웹페이지로 이동합니다.</p>
-      <ul class="list-disc pl-5">
-        <li><a href="https://www.2050cnc.go.kr/base/main/view" target="_blank">대통령직속 2050탄소중립녹색성장위원회</a></li>
-        <li><a href="https://gihoo.or.kr/netzero" target="_blank">탄소중립 정책포털</a></li>
-        <li><a href="https://me.go.kr/home/web/main.do" target="_blank">환경부</a></li>
-        <li><a href="http://www.climate.go.kr/home/" target="_blank">기후정보포털</a></li>
-        <li><a href="https://www.cpoint.or.kr/netzero/main.do" target="_blank">탄소중립포인트 녹색생활실천</a></li>
-        <li><a href="https://www.kcen.kr/USR_main2016.jsp??=MAIN/index" target="_blank">한국 기후환경 네트워크</a></li>
-        <li><a href="https://www.ipcc.ch/" target="_blank">IPCC</a></li>
-        <li><a href="https://unfccc.int" target="_blank">UNFCCC</a></li>
-        <li><a href="https://www.climatechange2020.or.kr/" target="_blank">기후변화센터</a></li>
-        <li><a href="https://www.keco.or.kr/" target="_blank">한국환경공단</a></li>
-        <li><a href="https://greenunion.or.kr/" target="_blank">녹색연합</a></li>
-      </ul>
-    </div>
+    <!-- Books -->
+    <section id="books" class="tab-content bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-2xl font-semibold mb-6">📖 도서목록</h2>
+      <div id="booksGrid" class="books-grid"></div>
+    </section>
 
-    <!-- 동영상자료 -->
-    <div id="videos" class="tab-content bg-white p-6 rounded-lg shadow-md mb-8">
-      <h2 class="text-xl font-semibold mb-4">동영상자료</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div>
-          <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/XVAoQ60yAZc" title="탄소중립 1" frameborder="0" allowfullscreen></iframe>
-          <p class="mt-2 text-center text-sm text-gray-700">지구를 뜨겁게 만드는 탄소 이야기 🌎 탄소 중립 | 지식채널e | 기후 변화</p>
-        </div>
-        <div>
-          <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/cLYg_M5jo00" title="탄소중립 2" frameborder="0" allowfullscreen></iframe>
-          <p class="mt-2 text-center text-sm text-gray-700">탄소중립!🌍 내가 먼저 실천해요~!🙋</p>
-        </div>
-        <div>
-          <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/5YClXhBNdug" title="탄소중립 3" frameborder="0" allowfullscreen></iframe>
-          <p class="mt-2 text-center text-sm text-gray-700">잔망루피의 탄소중립 "제철이를 찾아라!"</p>
-        </div>
-        <div>
-          <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/eWa5tM0X-Vk" title="탄소중립 4" frameborder="0" allowfullscreen></iframe>
-          <p class="mt-2 text-center text-sm text-gray-700">탄소중립의 탄소는 뭐고, 중립은 뭘까요? | 1분 교양</p>
-        </div>
-        <div>
-          <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/GrMCf4PrKsQ" title="탄소중립 5" frameborder="0" allowfullscreen></iframe>
-          <p class="mt-2 text-center text-sm text-gray-700">[다큐S프라임] 탄소중립, 지구의 마지막 1℃ / YTN 사이언스</p>
-        </div>
-        <div>
-          <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/KpC8LDpOb0Y" title="탄소중립 6" frameborder="0" allowfullscreen></iframe>
-          <p class="mt-2 text-center text-sm text-gray-700">[탄소중립 환경동화] 엄마, 탄소중립이 뭐예요?</p>
-        </div>
-        <div>
-          <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/5BvEl_OFBx8" title="탄소중립 7" frameborder="0" allowfullscreen></iframe>
-          <p class="mt-2 text-center text-sm text-gray-700">※전국민 중독송※ 탄소 사용 멈추고❌탄소 중립에 빠져봐~😉🎶</p>
-        </div>
-        <div>
-          <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/IjxLmHXy9lY" title="탄소중립 8" frameborder="0" allowfullscreen></iframe>
-          <p class="mt-2 text-center text-sm text-gray-700">탄소 중립의 게임 체인저, '탄소포집'🌎</p>
-        </div>
-        <div>
-          <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/Wk6m2fJoFZ8" title="탄소중립 9" frameborder="0" allowfullscreen></iframe>
-          <p class="mt-2 text-center text-sm text-gray-700">탄소 중립, 지구를 지키는 한 걸음 [다큐ON-Docu ON]</p>
-        </div>
-        <div>
-          <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/GRBDO47yIzY" title="탄소중립 10" frameborder="0" allowfullscreen></iframe>
-          <p class="mt-2 text-center text-sm text-gray-700">2050탄소중립 알아보기</p>
-        </div>
-        <div>
-          <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/-V1XPFzNiZo" title="탄소중립 11" frameborder="0" allowfullscreen></iframe>
-          <p class="mt-2 text-center text-sm text-gray-700">"탄소중립 실현을 위한 학교 환경교육" 안내 영상</p>
-        </div>
-        <div>
-          <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/bb2vVoIff_w" title="탄소중립 12" frameborder="0" allowfullscreen></iframe>
-          <p class="mt-2 text-center text-sm text-gray-700">[그린클래스] 기후 위기와 탄소중립</p>
-        </div>
+    <!-- Links -->
+    <section id="links" class="tab-content bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-2xl font-extrabold mb-2 text-emerald-700">🌐 인터넷자료</h2>
+      <p class="text-sm text-gray-600 mb-4">※ 사이트 제목 클릭 시 새 탭에서 웹페이지로 이동합니다.</p>
+      <ul id="linksList" class="space-y-3"></ul>
+    </section>
+
+    <!-- Videos -->
+    <section id="videos" class="tab-content bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-2xl font-extrabold mb-4 text-emerald-700">🎬 동영상자료</h2>
+      <div id="videosGrid" class="grid grid-cols-4 gap-4"></div>
+    </section>
+  </main>
+
+  <!-- Book Modal -->
+  <div id="bookModal" class="fixed inset-0 hidden bg-black/50 items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg max-h-screen overflow-y-auto" onclick="event.stopPropagation()">
+      <div class="sticky top-0 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white p-6 flex justify-between items-start gap-4 rounded-t-xl">
+        <h3 id="modalTitle" class="text-xl font-bold leading-tight flex-1"></h3>
+        <button id="modalClose" class="text-2xl hover:bg-white/20 p-1 rounded-lg transition flex-shrink-0" aria-label="닫기">×</button>
       </div>
-    </div>
-
-    <!-- 모달 창 -->
-    <div id="bookModal" class="book-modal">
-      <div class="book-modal-content">
-        <span class="close" onclick="closeBookModal()">×</span>
-        <div id="modalContent"></div>
+      <div class="p-6 space-y-5">
+        <div class="grid grid-cols-3 gap-3">
+          <div class="bg-emerald-50 text-emerald-900 rounded-lg p-3">
+            <div class="text-xs text-emerald-700 mb-1 font-semibold">저자</div>
+            <div id="modalAuthor" class="text-sm font-semibold"></div>
+          </div>
+          <div class="bg-emerald-50 text-emerald-900 rounded-lg p-3">
+            <div class="text-xs text-emerald-700 mb-1 font-semibold">청구기호</div>
+            <div id="modalCall" class="text-sm font-semibold"></div>
+          </div>
+          <div class="bg-emerald-50 text-emerald-900 rounded-lg p-3">
+            <div class="text-xs text-emerald-700 mb-1 font-semibold">발행년도</div>
+            <div id="modalYear" class="text-sm font-semibold"></div>
+          </div>
+        </div>
+        <div>
+          <h4 class="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+            <span>📖</span> 개요
+          </h4>
+          <p id="modalIntro" class="text-gray-700 leading-relaxed text-sm"></p>
+        </div>
+        <div id="modalTags" class="flex flex-wrap gap-2"></div>
       </div>
     </div>
   </div>
 
   <script>
-    function openTab(tabId, el) {
-      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-      document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-      document.getElementById(tabId).classList.add('active');
-      el.classList.add('active');
+    const books = {
+      'book1': { title:'세상을 움직이는 힘, 에너지', author:'한귀영', callNumber:'563', year:'2023', intro:'이 책은 우리 사회의 모든 조직이 원활하게 운영될 수 있게 이끄는 핵심 원동력인 에너지에 대한 기본적인 정보를 제공하며, 흥미로운 역사적 일화를 곁들여 쉽게 풀어냅니다. 에너지 전공자가 아닌 일반 시민을 대상으로 하여 에너지 지식을 효과적으로 향상시키는 것을 목표로 합니다. 에너지 사용이 가져오는 환경오염 문제(대기, 수질, 토양 오염)와 이산화탄소 배출로 인한 지구온난화와 같은 필연적인 결과를 다루며, 가정용, 수송용 에너지뿐 아니라 상업용, 특히 환경에 큰 영향을 미치는 산업용 에너지의 경제적·환경적 요인을 종합적으로 살펴봅니다. 이를 통해 시민들이 정부에 적극적인 의견을 제시하며, 더 나은 산업용 에너지 소비 구조로의 전환에 관심을 갖고 참여할 수 있도록 장려합니다. 또한, 에너지와 관련된 다양한 사례를 통해 과거부터 현재까지의 에너지 사용 패턴을 되짚어보며, 앞으로의 지속 가능한 에너지 정책에 대한 통찰을 얻을 수 있는 기회를 제공합니다. 이 책은 단순한 정보 전달을 넘어, 독자들이 실질적인 변화를 이끌어내는 주체가 될 수 있도록 독려하는 데 초점을 맞추고 있으며, 에너지 문제에 대한 깊은 이해를 바탕으로 개인과 사회가 함께 나아갈 길을 모색할 수 있도록 돕습니다.', hashtags:'#에너지 #환경오염 #지구온난화 #산업용에너지 #시민참여' },
+      'book2': { title:'기후변화 쫌 아는 10대', author:'이지유', callNumber:'408', year:'2020', intro:'이 책은 10대 독자를 위해 친근하고 따뜻한 말투로 쓰여져 기후에 대한 이해를 쉽게 돕습니다. 기후의 개념을 점차 넓혀가며 깊이 있게 설명하며, 마지막 장에서는 순배출 제로라는 주제로 급증하는 이산화탄소와 온실가스, 그리고 이를 줄이는 실질적인 방법을 다룹니다. 기후가 무엇인지부터 지구온난화 문제까지 차근차근 이해하고, 이를 마음에 새기기 위해 이 책이 큰 역할을 할 수 있습니다. 또한, 10대들이 일상에서 경험하는 환경 변화와 이를 연결 짓는 구체적인 예시를 통해 기후 문제에 대한 관심을 높이며, 실천 가능한 작은 행동부터 시작해 큰 변화를 만들어 갈 수 있는 자신감을 심어줍니다. 이 책은 단순히 이론을 전달하는 데 그치지 않고, 젊은 세대가 기후 위기에 적극적으로 대응할 수 있는 첫걸음을 내디딜 수 있도록 동기를 부여하며, 실생활에서 적용할 수 있는 구체적인 아이디어를 제시합니다.', hashtags:'#기후변화 #10대 #온실가스 #지구온난화 #순배출제로' },
+      'book3': { title:'모두의 내일을 위한 기후위기와 탄소중립 수업이야기', author:'한문정', callNumber:'374', year:'2023', intro:'이 책은 탄소중립을 주제로 한 한 학기 주제선택 수업의 진행 과정을 상세히 기록하며, 수업에서 활용된 자료와 수업의 자연스러운 흐름을 명확히 보여줍니다. 지구도둑 부캐 테스트와 한끼밥상 탄소 계산기 웹사이트 같은 구체적인 활동이 포함되어 있어, 수업을 주도하는 교사뿐 아니라 일반 독자도 탄소중립에 대해 쉽게 배우고 실천할 수 있는 기회를 제공합니다. 수업에서의 상호작용과 학생들의 피드백을 반영한 다양한 사례를 통해, 독자들이 직접 참여하며 배울 수 있는 방법을 제안하며, 탄소중립에 대한 실질적인 이해를 돕습니다. 이 책은 단순한 교재를 넘어, 교육 현장에서의 경험을 공유하며 더 많은 사람이 기후 문제에 관심을 가질 수 있도록 설계되었으며, 실제 수업 사례를 통해 실천 가능성을 높이는 데 초점을 맞춥니다.', hashtags:'#탄소중립 #수업자료 #지구도둑 #탄소계산기 #실천' },
+      'book4': { title:'탄소 중립으로 지구를 살리자고?', author:'박재용', callNumber:'408', year:'2021', intro:'이 책은 기후위기의 원인 분석을 시작으로 도시와 바다 생태계의 문제를 차분히 설명하며, 전 세계가 동의하고 실천에 옮기는 해결책으로 2050 탄소중립을 제시합니다. 마지막 장에서는 탄소중립의 의미와 이산화탄소 배출을 줄이는 실질적인 방법을 간결하면서도 명확히 다룹니다. 기후위기로 인해 발생하는 다양한 현상을 자세히 탐구하며, 탄소중립이 필수적인 이유를 깊이 이해할 수 있도록 돕습니다. 또한, 각국이 추진 중인 탄소중립 정책과 그 성공 사례를 소개하며, 독자들이 이를 자신들의 삶에 적용할 수 있는 방법을 고민하게 만듭니다. 이 책은 단순한 이론 설명을 넘어, 실천 가능한 아이디어를 제시하며 독자 스스로 기후 위기 해결에 동참할 수 있도록 유도하며, 지속 가능한 미래를 위한 구체적인 로드맵을 제시합니다.', hashtags:'#기후위기 #탄소중립 #2050 #이산화탄소 #생태계' },
+      'book5': { title:'지속가능한 미래를 위한 기후변화 데이터북', author:'박훈', callNumber:'539', year:'2024', intro:'이 책은 기후위기의 시대에 기후급변점을 막기 위해 시민들이 반드시 알아야 할 최신 기후변화 데이터를 풍부히 담고 있습니다. 현재보다 온실가스 배출량을 1/15 이내로 줄이는 삶을 한 세대 안에 실천할 수 있도록 돕는 안내서로, 다양한 출처의 신뢰할 수 있는 국내외 통계자료와 보고서를 분석해 제시합니다. 지구의 온난화 정도, 국내외 온실가스 배출 현황, 기후변화의 원인, 미래 전망과 시나리오, 그리고 기후 행동의 실제 효과까지 광범위한 주제를 아우르며 깊이 탐구합니다. 또한, 각 데이터를 기반으로 한 구체적인 정책 제안과 시민 참여 방안을 포함해, 독자들이 데이터를 실생활에 적용할 수 있는 실질적인 통찰을 얻을 수 있도록 돕습니다. 이 책은 단순한 정보 제공을 넘어, 기후 위기에 대한 적극적인 대응을 위한 가이드 역할을 하며, 다양한 지역의 사례를 통해 글로벌 관점을 제공합니다.', hashtags:'#기후변화 #데이터북 #온실가스 #지구온난화 #기후행동' },
+      'book6': { title:'궁금했어, 탄소중립', author:'윤상석', callNumber:'408', year:'2023', intro:'이 책은 탄소가 무엇인지부터 시작해 탄소가 왜 문제인지, 지구온난화의 의미와 방지 방법, 그리고 탄소 배출을 줄이는 실질적인 방안에 이르기까지, 기후위기와 떼려야 뗄 수 없는 탄소중립에 대해 체계적으로 이해할 수 있도록 돕습니다. 다른 책들과 달리 탄소와 탄소중립에 대한 내용의 비중이 높아, 이 주제에 깊이 관심 있는 독자가 원하는 정보를 풍부히 얻을 수 있습니다. 또한, 탄소, 온실가스, 지구온난화의 상호 관계를 자연스럽게 설명하며, 지구온난화와 기후위기에 대한 종합적인 이해를 이끌어냅니다. 다양한 사례와 데이터를 활용해 탄소중립의 실현 가능성을 탐구하며, 독자들이 이를 일상에서 실천할 수 있는 구체적인 단계를 제안합니다. 이 책은 단순한 설명을 넘어 실천으로 이어지는 길잡이가 되려 하며, 독자 개개인이 기후 문제 해결에 기여할 수 있는 방법을 모색하도록 안내합니다.', hashtags:'#탄소중립 #기후위기 #지구온난화 #온실가스 #실천방안' },
+      'book7': { title:'이토록 불편한 탄소', author:'신방실', callNumber:'408', year:'2023', intro:'이 책은 초등학생이 각 주제에 대해 5번의 인터뷰를 진행하는 흥미로운 형식으로 쓰여 있어, 초·중학생도 부담 없이 이해할 수 있는 수준입니다. 제목에서 알 수 있듯, 탄소와 탄소중립이 내용의 핵심 주제를 이루며, 원소로서의 탄소부터 산업혁명과 탄소의 연관성, 탄소가 문제인 이유, 그리고 탄소중립의 배경, 내용, 해결 방안까지 포괄적으로 다룹니다. 탄소중립, 지구온난화, 기후위기에 대한 기초부터 깊이 있는 이해를 도모하는 데 적합한 책입니다. 인터뷰를 통해 얻은 다양한 관점을 반영해, 어린 독자들도 복잡한 주제를 쉽게 받아들일 수 있도록 배려하며, 실생활에서의 적용 가능성을 제시합니다. 이 책은 단순한 학습 자료를 넘어, 어린이들이 환경 문제에 관심을 갖고 작은 변화부터 시작할 수 있도록 동기를 부여합니다.', hashtags:'#탄소 #탄소중립 #지구온난화 #기후위기 #교육' },
+      'book8': { title:'탄소중립, 어떻게 해결할까?', author:'신방실', callNumber:'539', year:'2023', intro:'이 책은 탄소 사회의 종말과 탄소중립 및 그 실천 방안을 중심으로 구성되었으며, 과거 산업혁명의 원동력이었던 화석연료에서 시작해 탄소중립을 위한 우리의 실천을 포괄적으로 다룹니다. 탄소 배출로 초래되는 온실효과, 지구온난화, 기후변화, 기후위기에 대한 심층적인 내용과 파리협정의 중요성을 소개하며, 탄소중립의 의미와 대한민국 탄소배출 현황을 자세히 설명합니다. 또한, 탈탄소 시대의 정의로운 사회를 주제로 기후 위기로 인한 글로벌 위협과 기후 난민, 기후 정의를 다루며, 폭넓은 관점에서 탄소중립을 조명합니다. 끝으로, 우리가 실천할 수 있는 구체적인 방법을 제시해 탄소중립에 대한 이해와 실천 의지를 북돋웁니다. 다양한 국제 사례와 정책을 비교하며, 독자들이 이를 지역적 맥락에서 적용할 수 있는 통찰을 제공합니다.', hashtags:'#탄소중립 #화석연료 #기후위기 #파리협정 #기후정의' },
+      'book9': { title:'탄소중립이 뭐예요?', author:'장성익', callNumber:'539', year:'2022', intro:'이 책은 전 세계가 기후 변화로 어려움을 겪고 있는 상황에서, 지구온난화라는 기후 변화의 주요 원인을 해결하기 위해 필수적인 탄소중립이 무엇이며 왜 중요한지를 명확히 알려줍니다. 탄소중립을 이해하기 위해 지구 생물들이 기후 변화로 입는 피해, 기후변화, 기후위기에 대한 내용을 먼저 소개한 뒤, 이를 해결하는 핵심 수단으로 탄소중립을 심도 있게 다룹니다. 또한, 기후 정의와 에너지 전환 같은 중요한 주제를 포함하며, 탄소중립과 관련된 폭넓고 신뢰할 수 있는 정보를 제공합니다. 학생들을 주요 독자로 설정해 마치 직접 대화하듯 친근한 어투로, 친절한 설명을 더해 내용을 쉽게 소화할 수 있도록 구성했습니다. 실생활에서의 사례를 곁들여, 학생들이 기후 문제에 실질적으로 참여할 수 있는 계기를 제공합니다.', hashtags:'#탄소중립 #기후변화 #지구온난화 #기후정의 #에너지전환' },
+      'book10': { title:'우리도 할 수 있어! 탄소중립', author:'신영미', callNumber:'539', year:'2022', intro:'이 책은 환경 보호가 전 지구적인 과제이자 반드시 해결해야 할 숙제임을 강조하며, 올바른 방향을 설정하고 지금 바로 실천할 구체적인 방법을 제시하려는 열정으로 쓰여졌습니다. 초등학생 남매 와이와 키키가 기후위기와 탄소중립을 또래 친구들에게 친근하게 설명하는 방식이 특징입니다. 기후위기의 주범인 온실가스에 대한 내용을 다룬 뒤, 탄소중립이 가장 확실한 해결책임을 밝히며 그 의미를 깊이 설명합니다. 국가 정책, 기업 경영, 개인 생활 방식까지 아우르는 변화가 필요함을 강조하고, 식생활, 의생활 등 일상에서 탄소 감축을 위한 실천 방법을 구체적으로 제안합니다. 어린이들이 참여할 수 있는 실천 사례를 풍부히 담아, 환경 보호에 대한 책임감을 키울 수 있도록 돕습니다.', hashtags:'#탄소중립 #환경보호 #기후위기 #온실가스 #실천방법' },
+      'book11': { title:'선생님, 탄소중립을 이루려면 어떻게 해야 해요?', author:'최원형', callNumber:'539', year:'2023', intro:'이 책은 모두가 협력해 온실가스를 줄여야 한다는 메시지를 담고 있으며, 기후변화의 의미를 탐구합니다. 학생들의 흥미를 끌기 위해 그린란드의 녹아내리는 빙하와 산불로 멸종 위기에 처한 코알라를 예로 들어 생생하게 설명합니다. 이어서 탄소중립의 의미와 탄소가 문제인 이유를 명확히 제시하며, 식생활과 기후위기의 연관성을 다루고 식생활에서의 탄소 배출에 초점을 맞춥니다. 다음으로는 옷, 핸드폰, 종이 등 의생활과 일상에서의 탄소 배출을 상세히 설명하고, 마지막 장에서 일상 속 다양한 탄소 배출을 줄이는 실천 방법을 구체적으로 제안합니다. 학생들이 쉽게 공감할 수 있는 사례를 통해, 기후 문제에 대한 실천 의지를 북돋우는 데 중점을 둡니다.', hashtags:'#탄소중립 #기후변화 #온실가스 #실천 #의생활' },
+      'book12': { title:'오늘부터 시작하는 탄소중립', author:'권승문, 김세영', callNumber:'539', year:'2022', intro:'이 책은 기후변화와 기후위를 해결할 핵심 열쇠로 탄소중립을 소개하며, 패션, 식문화, 교통, 건물, 경제활동 등 일상에서 탄소가 많이 발생하는 각 분야에서 탄소 배출이 어떻게 이루어지는지를 상세하면서도 쉽게 설명합니다. 편리함을 중시하던 일상에서 탄소 배출을 줄이는 방식으로 변화를 이끌어내야 한다는 점을 분명히 제시하며, 사회 전체가 탈성장의 방향으로 나아가야 함을 강조합니다. 각 분야별로 구체적인 탄소 배출 사례와 이를 줄이는 방법을 제안하며, 독자들이 일상에서 실천할 수 있는 구체적인 단계를 안내합니다. 이 책은 단순한 이론을 넘어 지속 가능한 생활 방식을 실현할 수 있는 실질적인 가이드 역할을 합니다.', hashtags:'#탄소중립 #기후위기 #일상변화 #탈성장 #탄소배출' },
+      'book13': { title:'우리 모두 SDGs', author:'WILL 어린이교육연구소', callNumber:'331', year:'2023', intro:'이 책은 SDGs에 대해 아는 것이 없는 독자에게 SDGs가 무엇인지를 간단하고 명확하게 설명하며, 어린이 독자를 주요 대상으로 삼았습니다. 집, 동네, 학교라는 일상적인 공간을 기준으로 SDGs를 주제로 나누어, 각 장면에 맞는 SDGs 목표와 행동, 그리고 그 상황에서 실천할 수 있는 구체적인 방법을 제시합니다. 일상 속 장면을 그림 중심으로 표현하고, 관련 내용을 그림과 함께 풀어냄으로써 어린이들도 쉽게 이해할 수 있도록 세심하게 구성되었습니다. 다양한 일상 상황에서의 SDGs 적용 예시를 추가해, 어린이들이 실생활에서 실천할 수 있는 기회를 넓히며, 지속 가능한 삶에 대한 흥미를 유도합니다.', hashtags:'#SDGs #어린이교육 #지속가능발전 #일상실천 #그림책' },
+      'book14': { title:'어린이를 위한 SDGs', author:'송지현', callNumber:'331', year:'2022', intro:'이 책은 어린이들에게 SDGs를 상세히 소개하기 위해 제작되었으며, 전 세계적으로 발생하는 다양한 문제를 인식할 수 있도록 돕습니다. 관련 그림과 함께 어린 학생들이 이해하기 쉬운 간단한 문장으로 내용을 전달합니다. 이후 장에서는 앞서 다룬 문제들을 확장해 지속가능성, 지속가능발전, SDGs, 그리고 SDGs의 5P에 대해 간결하게 설명합니다. 마지막 장에서는 우리가 SDGs를 어떻게 받아들이고 실천으로 옮길지를 깊이 고민할 수 있는 주제를 제시하며 마무리합니다. 다양한 세계 각국의 사례를 통해 어린이들이 글로벌 관점을 갖출 수 있도록 안내하며, 실천 가능한 아이디어를 풍부히 담았습니다.', hashtags:'#SDGs #어린이 #지속가능발전 #교육 #실천' },
+      'book15': { title:'숫자로 알아보는 환경 과학 이야기', author:'이성희', callNumber:'539', year:'2023', intro:'이 책은 숫자를 통해 우리가 현재 살아가는 세상과 다가올 미래에 대한 이야기를 흥미롭게 풀어냅니다. 0의 탄소중립, 제로 웨이스트, 제로 에너지부터 1의 유일한 지구, 장미 한 송이, 2의 지구 온도 상승 2도 이하까지 숫자 15까지의 주제를 다룹니다. 특히, 일상 속 장면을 배경으로 박사와 학생이 대화하는 형식으로 진행되며, 종이타월 대 핸드드라이어, 손 설거지 대 식기세척기 중 어떤 선택이 더 친환경적인지 고민할 수 있는 흥미로운 주제를 쉽고 이해하기 편한 언어로 설명합니다. 다양한 일상 사례를 추가해 독자들이 실생활에서 친환경 선택을 실천할 수 있는 영감을 얻을 수 있도록 돕습니다.', hashtags:'#환경과학 #숫자 #친환경 #지구온난화 #일상' }
+    };
+
+    const webResources = [
+      { title: '대통령직속 2050탄소중립녹색성장위원회', url: 'https://www.2050cnc.go.kr/base/main/view' },
+      { title: '탄소중립 정책포털', url: 'https://gihoo.or.kr/netzero' },
+      { title: '환경부', url: 'https://me.go.kr/home/web/main.do' },
+      { title: '기후정보포털', url: 'http://www.climate.go.kr/home/' },
+      { title: '탄소중립포인트 녹색생활실천', url: 'https://www.cpoint.or.kr/netzero/main.do' },
+      { title: '한국 기후환경 네트워크', url: 'https://www.kcen.kr/USR_main2016.jsp' },
+      { title: 'IPCC', url: 'https://www.ipcc.ch/' },
+      { title: 'UNFCCC', url: 'https://unfccc.int' },
+      { title: '기후변화센터', url: 'https://www.climatechange2020.or.kr/' },
+      { title: '한국환경공단', url: 'https://www.keco.or.kr/' },
+      { title: '녹색연합', url: 'https://greenunion.or.kr/' }
+    ];
+
+    const videos = [
+      { title: '지구를 뜨겁게 만드는 탄소 이야기', id: 'XVAoQ60yAZc' },
+      { title: '탄소중립! 내가 먼저 실천해요', id: 'cLYg_M5jo00' },
+      { title: '잔망루피의 탄소중립', id: '5YClXhBNdug' },
+      { title: '탄소중립의 탄소는 뭐고, 중립은 뭘까요?', id: 'eWa5tM0X-Vk' },
+      { title: '탄소중립, 지구의 마지막 1℃', id: 'GrMCf4PrKsQ' },
+      { title: '엄마, 탄소중립이 뭐예요?', id: 'KpC8LDpOb0Y' },
+      { title: '탄소 사용 멈추고 탄소중립에 빠져봐', id: '5BvEl_OFBx8' },
+      { title: '탄소 중립의 게임 체인저, 탄소포집', id: 'IjxLmHXy9lY' },
+      { title: '탄소 중립, 지구를 지키는 한 걸음', id: 'Wk6m2fJoFZ8' },
+      { title: '2050탄소중립 알아보기', id: 'GRBDO47yIzY' },
+      { title: '학교 환경교육 안내 영상', id: '-V1XPFzNiZo' },
+      { title: '기후 위기와 탄소중립', id: 'bb2vVoIff_w' }
+    ];
+
+    function openTab(id) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+      const target = document.getElementById(id);
+      if (!target) { console.warn('탭이 존재하지 않습니다:', id); return; }
+      target.classList.add('active');
+      const btn = Array.from(document.querySelectorAll('.tab-button')).find(b => b.dataset.tab === id);
+      if (btn) btn.classList.add('active');
     }
 
-    function openBookModal(bookId) {
-      const books = {
-        'book1': {
-          title: '세상을 움직이는 힘, 에너지',
-          author: '한귀영',
-          callNumber: '563??',
-          year: '2023',
-          intro: '이 책은 우리 사회의 모든 조직이 원활하게 운영될 수 있게 이끄는 핵심 원동력인 에너지에 대한 기본적인 정보를 제공하며, 흥미로운 역사적 일화를 곁들여 쉽게 풀어냅니다. 에너지 전공자가 아닌 일반 시민을 대상으로 하여 에너지 지식을 효과적으로 향상시키는 것을 목표로 합니다. 에너지 사용이 가져오는 환경오염 문제(대기, 수질, 토양 오염)와 이산화탄소 배출로 인한 지구온난화와 같은 필연적인 결과를 다루며, 가정용, 수송용 에너지뿐 아니라 상업용, 특히 환경에 큰 영향을 미치는 산업용 에너지의 경제적·환경적 요인을 종합적으로 살펴봅니다. 이를 통해 시민들이 정부에 적극적인 의견을 제시하며, 더 나은 산업용 에너지 소비 구조로의 전환에 관심을 갖고 참여할 수 있도록 장려합니다. 또한, 에너지와 관련된 다양한 사례를 통해 과거부터 현재까지의 에너지 사용 패턴을 되짚어보며, 앞으로의 지속 가능한 에너지 정책에 대한 통찰을 얻을 수 있는 기회를 제공합니다. 이 책은 단순한 정보 전달을 넘어, 독자들이 실질적인 변화를 이끌어내는 주체가 될 수 있도록 독려하는 데 초점을 맞추고 있으며, 에너지 문제에 대한 깊은 이해를 바탕으로 개인과 사회가 함께 나아갈 길을 모색할 수 있도록 돕습니다.',
-          hashtags: '#에너지 #환경오염 #지구온난화 #산업용에너지 #시민참여'
-        },
-        'book2': {
-          title: '기후변화 쫌 아는 10대',
-          author: '이지유',
-          callNumber: '408',
-          year: '2020',
-          intro: '이 책은 10대 독자를 위해 친근하고 따뜻한 말투로 쓰여져 기후에 대한 이해를 쉽게 돕습니다. 기후의 개념을 점차 넓혀가며 깊이 있게 설명하며, 마지막 장에서는 순배출 제로라는 주제로 급증하는 이산화탄소와 온실가스, 그리고 이를 줄이는 실질적인 방법을 다룹니다. 기후가 무엇인지부터 지구온난화 문제까지 차근차근 이해하고, 이를 마음에 새기기 위해 이 책이 큰 역할을 할 수 있습니다. 또한, 10대들이 일상에서 경험하는 환경 변화와 이를 연결 짓는 구체적인 예시를 통해 기후 문제에 대한 관심을 높이며, 실천 가능한 작은 행동부터 시작해 큰 변화를 만들어 갈 수 있는 자신감을 심어줍니다. 이 책은 단순히 이론을 전달하는 데 그치지 않고, 젊은 세대가 기후 위기에 적극적으로 대응할 수 있는 첫걸음을 내디딜 수 있도록 동기를 부여하며, 실생활에서 적용할 수 있는 구체적인 아이디어를 제시합니다.',
-          hashtags: '#기후변화 #10대 #온실가스 #지구온난화 #순배출제로'
-        },
-        'book3': {
-          title: '모두의 내일을 위한 기후위기와 탄소중립 수업이야기',
-          author: '한문정',
-          callNumber: '374',
-          year: '2023',
-          intro: '이 책은 탄소중립을 주제로 한 한 학기 주제선택 수업의 진행 과정을 상세히 기록하며, 수업에서 활용된 자료와 수업의 자연스러운 흐름을 명확히 보여줍니다. 지구도둑 부캐 테스트와 한끼밥상 탄소 계산기 웹사이트 같은 구체적인 활동이 포함되어 있어, 수업을 주도하는 교사뿐 아니라 일반 독자도 탄소중립에 대해 쉽게 배우고 실천할 수 있는 기회를 제공합니다. 수업에서의 상호작용과 학생들의 피드백을 반영한 다양한 사례를 통해, 독자들이 직접 참여하며 배울 수 있는 방법을 제안하며, 탄소중립에 대한 실질적인 이해를 돕습니다. 이 책은 단순한 교재를 넘어, 교육 현장에서의 경험을 공유하며 더 많은 사람이 기후 문제에 관심을 가질 수 있도록 설계되었으며, 실제 수업 사례를 통해 실천 가능성을 높이는 데 초점을 맞춥니다.',
-          hashtags: '#탄소중립 #수업자료 #지구도둑 #탄소계산기 #실천'
-        },
-        'book4': {
-          title: '탄소 중립으로 지구를 살리자고?',
-          author: '박재용',
-          callNumber: '408',
-          year: '2021',
-          intro: '이 책은 기후위기의 원인 분석을 시작으로 도시와 바다 생태계의 문제를 차분히 설명하며, 전 세계가 동의하고 실천에 옮기는 해결책으로 2050 탄소중립을 제시합니다. 마지막 장에서는 탄소중립의 의미와 이산화탄소 배출을 줄이는 실질적인 방법을 간결하면서도 명확히 다룹니다. 기후위기로 인해 발생하는 다양한 현상을 자세히 탐구하며, 탄소중립이 필수적인 이유를 깊이 이해할 수 있도록 돕습니다. 또한, 각국이 추진 중인 탄소중립 정책과 그 성공 사례를 소개하며, 독자들이 이를 자신들의 삶에 적용할 수 있는 방법을 고민하게 만듭니다. 이 책은 단순한 이론 설명을 넘어, 실천 가능한 아이디어를 제시하며 독자 스스로 기후 위기 해결에 동참할 수 있도록 유도하며, 지속 가능한 미래를 위한 구체적인 로드맵을 제시합니다.',
-          hashtags: '#기후위기 #탄소중립 #2050 #이산화탄소 #생태계'
-        },
-        'book5': {
-          title: '지속가능한 미래를 위한 기후변화 데이터북',
-          author: '박훈',
-          callNumber: '539',
-          year: '2024',
-          intro: '이 책은 기후위기의 시대에 기후급변점을 막기 위해 시민들이 반드시 알아야 할 최신 기후변화 데이터를 풍부히 담고 있습니다. 현재보다 온실가스 배출량을 1/15 이내로 줄이는 삶을 한 세대 안에 실천할 수 있도록 돕는 안내서로, 다양한 출처의 신뢰할 수 있는 국내외 통계자료와 보고서를 분석해 제시합니다. 지구의 온난화 정도, 국내외 온실가스 배출 현황, 기후변화의 원인, 미래 전망과 시나리오, 그리고 기후 행동의 실제 효과까지 광범위한 주제를 아우르며 깊이 탐구합니다. 또한, 각 데이터를 기반으로 한 구체적인 정책 제안과 시민 참여 방안을 포함해, 독자들이 데이터를 실생활에 적용할 수 있는 실질적인 통찰을 얻을 수 있도록 돕습니다. 이 책은 단순한 정보 제공을 넘어, 기후 위기에 대한 적극적인 대응을 위한 가이드 역할을 하며, 다양한 지역의 사례를 통해 글로벌 관점을 제공합니다.',
-          hashtags: '#기후변화 #데이터북 #온실가스 #지구온난화 #기후행동'
-        },
-        'book6': {
-          title: '궁금했어, 탄소중립',
-          author: '윤상석',
-          callNumber: '408',
-          year: '2023',
-          intro: '이 책은 탄소가 무엇인지부터 시작해 탄소가 왜 문제인지, 지구온난화의 의미와 방지 방법, 그리고 탄소 배출을 줄이는 실질적인 방안에 이르기까지, 기후위기와 떼려야 뗄 수 없는 탄소중립에 대해 체계적으로 이해할 수 있도록 돕습니다. 다른 책들과 달리 탄소와 탄소중립에 대한 내용의 비중이 높아, 이 주제에 깊이 관심 있는 독자가 원하는 정보를 풍부히 얻을 수 있습니다. 또한, 탄소, 온실가스, 지구온난화의 상호 관계를 자연스럽게 설명하며, 지구온난화와 기후위기에 대한 종합적인 이해를 이끌어냅니다. 다양한 사례와 데이터를 활용해 탄소중립의 실현 가능성을 탐구하며, 독자들이 이를 일상에서 실천할 수 있는 구체적인 단계를 제안합니다. 이 책은 단순한 설명을 넘어 실천으로 이어지는 길잡이가 되려 하며, 독자 개개인이 기후 문제 해결에 기여할 수 있는 방법을 모색하도록 안내합니다.',
-          hashtags: '#탄소중립 #기후위기 #지구온난화 #온실가스 #실천방안'
-        },
-        'book7': {
-          title: '이토록 불편한 탄소',
-          author: '신방실',
-          callNumber: '408',
-          year: '2023',
-          intro: '이 책은 초등학생이 각 주제에 대해 5번의 인터뷰를 진행하는 흥미로운 형식으로 쓰여 있어, 초·중학생도 부담 없이 이해할 수 있는 수준입니다. 제목에서 알 수 있듯, 탄소와 탄소중립이 내용의 핵심 주제를 이루며, 원소로서의 탄소부터 산업혁명과 탄소의 연관성, 탄소가 문제인 이유, 그리고 탄소중립의 배경, 내용, 해결 방안까지 포괄적으로 다룹니다. 탄소중립, 지구온난화, 기후위기에 대한 기초부터 깊이 있는 이해를 도모하는 데 적합한 책입니다. 인터뷰를 통해 얻은 다양한 관점을 반영해, 어린 독자들도 복잡한 주제를 쉽게 받아들일 수 있도록 배려하며, 실생활에서의 적용 가능성을 제시합니다. 이 책은 단순한 학습 자료를 넘어, 어린이들이 환경 문제에 관심을 갖고 작은 변화부터 시작할 수 있도록 동기를 부여합니다.',
-          hashtags: '#탄소 #탄소중립 #지구온난화 #기후위기 #교육'
-        },
-        'book8': {
-          title: '탄소중립, 어떻게 해결할까?',
-          author: '신방실',
-          callNumber: '539',
-          year: '2023',
-          intro: '이 책은 탄소 사회의 종말과 탄소중립 및 그 실천 방안을 중심으로 구성되었으며, 과거 산업혁명의 원동력이었던 화석연료에서 시작해 탄소중립을 위한 우리의 실천을 포괄적으로 다룹니다. 탄소 배출로 초래되는 온실효과, 지구온난화, 기후변화, 기후위기에 대한 심층적인 내용과 파리협정의 중요성을 소개하며, 탄소중립의 의미와 대한민국 탄소배출 현황을 자세히 설명합니다. 또한, 탈탄소 시대의 정의로운 사회를 주제로 기후 위기로 인한 글로벌 위협과 기후 난민, 기후 정의를 다루며, 폭넓은 관점에서 탄소중립을 조명합니다. 끝으로, 우리가 실천할 수 있는 구체적인 방법을 제시해 탄소중립에 대한 이해와 실천 의지를 북돋웁니다. 다양한 국제 사례와 정책을 비교하며, 독자들이 이를 지역적 맥락에서 적용할 수 있는 통찰을 제공합니다.',
-          hashtags: '#탄소중립 #화석연료 #기후위기 #파리협정 #기후정의'
-        },
-        'book9': {
-          title: '탄소중립이 뭐예요?',
-          author: '장성익',
-          callNumber: '539',
-          year: '2022',
-          intro: '이 책은 전 세계가 기후 변화로 어려움을 겪고 있는 상황에서, 지구온난화라는 기후 변화의 주요 원인을 해결하기 위해 필수적인 탄소중립이 무엇이며 왜 중요한지를 명확히 알려줍니다. 탄소중립을 이해하기 위해 지구 생물들이 기후 변화로 입는 피해, 기후변화, 기후위기에 대한 내용을 먼저 소개한 뒤, 이를 해결하는 핵심 수단으로 탄소중립을 심도 있게 다룹니다. 또한, 기후 정의와 에너지 전환 같은 중요한 주제를 포함하며, 탄소중립과 관련된 폭넓고 신뢰할 수 있는 정보를 제공합니다. 학생들을 주요 독자로 설정해 마치 직접 대화하듯 친근한 어투로, 친절한 설명을 더해 내용을 쉽게 소화할 수 있도록 구성했습니다. 실생활에서의 사례를 곁들여, 학생들이 기후 문제에 실질적으로 참여할 수 있는 계기를 제공합니다.',
-          hashtags: '#탄소중립 #기후변화 #지구온난화 #기후정의 #에너지전환'
-        },
-        'book10': {
-          title: '우리도 할 수 있어! 탄소중립',
-          author: '신영미',
-          callNumber: '539',
-          year: '2022',
-          intro: '이 책은 환경 보호가 전 지구적인 과제이자 반드시 해결해야 할 숙제임을 강조하며, 올바른 방향을 설정하고 지금 바로 실천할 구체적인 방법을 제시하려는 열정으로 쓰여졌습니다. 초등학생 남매 와이와 키키가 기후위기와 탄소중립을 또래 친구들에게 친근하게 설명하는 방식이 특징입니다. 기후위기의 주범인 온실가스에 대한 내용을 다룬 뒤, 탄소중립이 가장 확실한 해결책임을 밝히며 그 의미를 깊이 설명합니다. 국가 정책, 기업 경영, 개인 생활 방식까지 아우르는 변화가 필요함을 강조하고, 식생활, 의생활 등 일상에서 탄소 감축을 위한 실천 방법을 구체적으로 제안합니다. 어린이들이 참여할 수 있는 실천 사례를 풍부히 담아, 환경 보호에 대한 책임감을 키울 수 있도록 돕습니다.',
-          hashtags: '#탄소중립 #환경보호 #기후위기 #온실가스 #실천방법'
-        },
-        'book11': {
-          title: '선생님, 탄소중립을 이루려면 어떻게 해야 해요?',
-          author: '최원형',
-          callNumber: '539',
-          year: '2023',
-          intro: '이 책은 모두가 협력해 온실가스를 줄여야 한다는 메시지를 담고 있으며, 기후변화의 의미를 탐구합니다. 학생들의 흥미를 끌기 위해 그린란드의 녹아내리는 빙하와 산불로 멸종 위기에 처한 코알라를 예로 들어 생생하게 설명합니다. 이어서 탄소중립의 의미와 탄소가 문제인 이유를 명확히 제시하며, 식생활과 기후위기의 연관성을 다루고 식생활에서의 탄소 배출에 초점을 맞춥니다. 다음으로는 옷, 핸드폰, 종이 등 의생활과 일상에서의 탄소 배출을 상세히 설명하고, 마지막 장에서 일상 속 다양한 탄소 배출을 줄이는 실천 방법을 구체적으로 제안합니다. 학생들이 쉽게 공감할 수 있는 사례를 통해, 기후 문제에 대한 실천 의지를 북돋우는 데 중점을 둡니다.',
-          hashtags: '#탄소중립 #기후변화 #온실가스 #실천 #의생활'
-        },
-        'book12': {
-          title: '오늘부터 시작하는 탄소중립',
-          author: '권승문, 김세영',
-          callNumber: '539',
-          year: '2022',
-          intro: '이 책은 기후변화와 기후위기를 해결할 핵심 열쇠로 탄소중립을 소개하며, 패션, 식문화, 교통, 건물, 경제활동 등 일상에서 탄소가 많이 발생하는 각 분야에서 탄소 배출이 어떻게 이루어지는지를 상세하면서도 쉽게 설명합니다. 편리함을 중시하던 일상에서 탄소 배출을 줄이는 방식으로 변화를 이끌어내야 한다는 점을 분명히 제시하며, 사회 전체가 탈성장의 방향으로 나아가야 함을 강조합니다. 각 분야별로 구체적인 탄소 배출 사례와 이를 줄이는 방법을 제안하며, 독자들이 일상에서 실천할 수 있는 구체적인 단계를 안내합니다. 이 책은 단순한 이론을 넘어 지속 가능한 생활 방식을 실현할 수 있는 실질적인 가이드 역할을 합니다.',
-          hashtags: '#탄소중립 #기후위기 #일상변화 #탈성장 #탄소배출'
-        },
-        'book13': {
-          title: '우리 모두 SDGs',
-          author: 'WILL 어린이교육연구소',
-          callNumber: '331',
-          year: '2023',
-          intro: '이 책은 SDGs에 대해 아는 것이 없는 독자에게 SDGs가 무엇인지를 간단하고 명확하게 설명하며, 어린이 독자를 주요 대상으로 삼았습니다. 집, 동네, 학교라는 일상적인 공간을 기준으로 SDGs를 주제로 나누어, 각 장면에 맞는 SDGs 목표와 행동, 그리고 그 상황에서 실천할 수 있는 구체적인 방법을 제시합니다. 일상 속 장면을 그림 중심으로 표현하고, 관련 내용을 그림과 함께 풀어냄으로써 어린이들도 쉽게 이해할 수 있도록 세심하게 구성되었습니다. 다양한 일상 상황에서의 SDGs 적용 예시를 추가해, 어린이들이 실생활에서 실천할 수 있는 기회를 넓히며, 지속 가능한 삶에 대한 흥미를 유도합니다.',
-          hashtags: '#SDGs #어린이교육 #지속가능발전 #일상실천 #그림책'
-        },
-        'book14': {
-          title: '어린이를 위한 SDGs',
-          author: '송지현 / 감수: 아키야마 고지로',
-          callNumber: '331',
-          year: '2022',
-          intro: '이 책은 어린이들에게 SDGs를 상세히 소개하기 위해 제작되었으며, 전 세계적으로 발생하는 다양한 문제를 인식할 수 있도록 돕습니다. 관련 그림과 함께 어린 학생들이 이해하기 쉬운 간단한 문장으로 내용을 전달합니다. 이후 장에서는 앞서 다룬 문제들을 확장해 지속가능성, 지속가능발전, SDGs, 그리고 SDGs의 5P에 대해 간결하게 설명합니다. 마지막 장에서는 우리가 SDGs를 어떻게 받아들이고 실천으로 옮길지를 깊이 고민할 수 있는 주제를 제시하며 마무리합니다. 다양한 세계 각국의 사례를 통해 어린이들이 글로벌 관점을 갖출 수 있도록 안내하며, 실천 가능한 아이디어를 풍부히 담았습니다.',
-          hashtags: '#SDGs #어린이 #지속가능발전 #교육 #실천'
-        },
-        'book15': {
-          title: '숫자로 알아보는 환경 과학 이야기',
-          author: '이성희',
-          callNumber: '539',
-          year: '2023',
-          intro: '이 책은 숫자를 통해 우리가 현재 살아가는 세상과 다가올 미래에 대한 이야기를 흥미롭게 풀어냅니다. 0의 탄소중립, 제로 웨이스트, 제로 에너지부터 1의 유일한 지구, 장미 한 송이, 2의 지구 온도 상승 2도 이하까지 숫자 15까지의 주제를 다룹니다. 특히, 일상 속 장면을 배경으로 박사와 학생이 대화하는 형식으로 진행되며, 종이타월 대 핸드드라이어, 손 설거지 대 식기세척기 중 어떤 선택이 더 친환경적인지 고민할 수 있는 흥미로운 주제를 쉽고 이해하기 편한 언어로 설명합니다. 다양한 일상 사례를 추가해 독자들이 실생활에서 친환경 선택을 실천할 수 있는 영감을 얻을 수 있도록 돕습니다.',
-          hashtags: '#환경과학 #숫자 #친환경 #지구온난화 #일상'
-        }
-      };
-
-      const book = books[bookId];
-      const modalContent = document.getElementById('modalContent');
-      modalContent.innerHTML = 
-        `<h3 class="text-xl font-semibold mb-2">${book.title}</h3>
-        <p><strong>저자:</strong> ${book.author}</p>
-        <p><strong>청구기호:</strong> ${book.callNumber}</p>
-        <p><strong>발행년도:</strong> ${book.year}</p>
-        <p class="modal-intro">${book.intro}</p>
-        <span class="hashtags">${book.hashtags}</span>`;
-      document.getElementById('bookModal').style.display = 'block';
+    function renderBooks() {
+      const grid = document.getElementById('booksGrid');
+      grid.innerHTML = '';
+      Object.entries(books).forEach(([key, book]) => {
+        const card = document.createElement('div');
+        card.className = 'text-center cursor-pointer transition-transform duration-300 hover:scale-105';
+        card.onclick = () => openBookModal(key);
+        card.innerHTML = `
+          <div class="w-full aspect-square bg-gradient-to-br from-green-400 to-emerald-500 rounded-lg shadow-lg hover:shadow-xl flex items-center justify-center mb-2 overflow-hidden">
+            <span class="text-4xl">📚</span>
+          </div>
+          <h3 class="font-bold text-xs text-gray-800 line-clamp-2 leading-tight h-8">${book.title}</h3>
+          <p class="text-xs text-gray-600 mt-1">${book.author}</p>
+        `;
+        grid.appendChild(card);
+      });
     }
 
+    function renderLinks() {
+      const ul = document.getElementById('linksList');
+      ul.innerHTML = '';
+      webResources.forEach(r => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <a href="${r.url}" target="_blank" rel="noopener noreferrer" class="block rounded-2xl p-4 bg-gradient-to-r from-emerald-50 to-blue-50 shadow-sm hover:from-emerald-100 hover:to-blue-100 transition border-l-4 border-emerald-600">
+            <div class="flex items-center justify-between text-emerald-800">
+              <span class="font-semibold">${r.title}</span>
+              <span class="text-emerald-700">→</span>
+            </div>
+          </a>`;
+        ul.appendChild(li);
+      });
+    }
+
+    function renderVideos() {
+      const grid = document.getElementById('videosGrid');
+      grid.innerHTML = '';
+      videos.forEach(v => {
+        const wrap = document.createElement('div');
+        wrap.className = 'rounded-lg overflow-hidden shadow-md hover:shadow-lg transition';
+        wrap.innerHTML = `
+          <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/${v.id}" frameborder="0" allowfullscreen title="${v.title}"></iframe>
+          <p class="text-center text-xs text-gray-700 p-2 line-clamp-2 h-10">${v.title}</p>`;
+        grid.appendChild(wrap);
+      });
+    }
+
+    function openBookModal(key) {
+      const book = books[key];
+      if (!book) return;
+      document.getElementById('modalTitle').textContent = book.title;
+      document.getElementById('modalAuthor').textContent = book.author;
+      document.getElementById('modalCall').textContent = book.callNumber;
+      document.getElementById('modalYear').textContent = book.year;
+      document.getElementById('modalIntro').textContent = book.intro;
+      const tags = (book.hashtags || '').split(' ').filter(Boolean).map(t =>
+        `<span class="inline-block text-emerald-800 bg-emerald-100 border border-emerald-300 rounded-full px-3 py-1 text-xs font-medium">${t}</span>`
+      ).join('');
+      document.getElementById('modalTags').innerHTML = tags;
+
+      const m = document.getElementById('bookModal');
+      m.classList.remove('hidden');
+      m.classList.add('flex');
+      m.onclick = () => closeBookModal();
+      document.getElementById('modalClose').onclick = closeBookModal;
+    }
     function closeBookModal() {
-      const modal = document.getElementById('bookModal');
-      modal.style.display = 'none';
+      const m = document.getElementById('bookModal');
+      m.classList.add('hidden');
+      m.classList.remove('flex');
+      m.onclick = null;
     }
 
-    // 모달 외부 클릭 시 닫기
-    window.onclick = function(event) {
-      const modal = document.getElementById('bookModal');
-      if (event.target === modal) {
-        modal.style.display = 'none';
-      }
-    }
-
-    // 닫기 버튼에 이벤트 리스너 추가
-    document.addEventListener('DOMContentLoaded', function() {
-      const closeButton = document.querySelector('.close');
-      if (closeButton) {
-        closeButton.addEventListener('click', closeBookModal);
-      }
+    document.addEventListener('DOMContentLoaded', () => {
+      openTab('overview');
+      document.querySelectorAll('.tab-button').forEach(btn => {
+        btn.addEventListener('click', () => openTab(btn.dataset.tab));
+      });
+      renderBooks();
+      renderLinks();
+      renderVideos();
+      const bookCount = document.querySelectorAll('#booksGrid > div').length;
+      console.assert(bookCount === 15, `도서 타일 15개여야 함, 현재 ${bookCount}`);
     });
   </script>
 </body>
